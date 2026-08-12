@@ -2,11 +2,11 @@
 
 
 
-
+<>
 <div>
     <div class="absolute top-10 left-8 text-left mt-5">
         <h1 class="text-base font-semibold leading-[24px] tracking-tight">A.I. ANALYSIS</h1>
-        <p class="text-sm mt-1 text-muted-foreground uppercase leading-[24px]">A.I. has estimated the following.<br>Fix estimated information if needed.</p>
+        <p class="text-sm mt-1 text-muted-foreground uppercase leading-[24px]">A.I. has estimated the following.<br />Fix estimated information if needed.</p>
     </div>
     <div class="h-[78.3vh] flex flex-col items-center justify-center bg-white">
         <div class="relative">
@@ -80,3 +80,4 @@
         </div>
     </div>
 </div>
+</>
