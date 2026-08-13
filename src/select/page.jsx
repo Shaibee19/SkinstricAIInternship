@@ -1,12 +1,9 @@
-import Navbar from "../components/Navbar";
 import diamondLarge from "../assets/diamonds/diamond-large.png";
 import diamondMedium from "../assets/diamonds/diamond-medium.png";
 import diamondSmall from "../assets/diamonds/diamond-small.png";
 
 export default function SelectPage() {
   return (
-    <>
-        <Navbar />
     <div className="relative w-full min-h-screen bg-white">
 
       {/* Header */}
@@ -130,6 +127,5 @@ export default function SelectPage() {
         </div>
       </div>
     </div>
-    </>
   );
 }

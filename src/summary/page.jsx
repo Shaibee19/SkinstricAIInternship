@@ -1,10 +1,7 @@
-import Navbar from "../components/Navbar";
 import BackButton from "../components/BackButton";
 
 export default function SelectPage() {
   return (
-    <>
-      <Navbar />
     <div className="h-screen md:h-[90vh] flex flex-col md:mt-5">
       <main className="flex-1 w-full bg-white md:overflow-hidden overflow-auto">
         <div className="md:h-full max-w-full mx-5 px-4 md:px-0 flex flex-col">
@@ -297,6 +294,5 @@ export default function SelectPage() {
         </div>
       </main>
     </div>
-    </>
   );
 }

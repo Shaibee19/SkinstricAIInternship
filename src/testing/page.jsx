@@ -1,12 +1,9 @@
-import Navbar from "../components/Navbar";
 import diamondLarge from "../assets/diamonds/diamond-large.png";
 import diamondMedium from "../assets/diamonds/diamond-medium.png";
 import diamondSmall from "../assets/diamonds/diamond-small.png";
 
 export default function TestingPage() {
   return (
-    <>
-        <Navbar />
     <div className="min-h-[90vh] flex flex-col items-center justify-center bg-white text-center relative">
       {/* Top-left label */}
       <div className="absolute top-16 left-9 text-left">
@@ -76,6 +73,5 @@ export default function TestingPage() {
         </a>
       </div>
     </div>
-    </>
   );
 }

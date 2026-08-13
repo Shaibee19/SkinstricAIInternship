@@ -1,4 +1,3 @@
-import Navbar from "../components/Navbar";
 import resDiamondLg from "../assets/result/res-diamond-large.png";
 import resDiamondMd from "../assets/result/res-diamond-medium.png";
 import resDiamondSm from "../assets/result/res-diamond-small.png";
@@ -9,8 +8,6 @@ import galleryLine from "../assets/result/gallery-line.png";
 
 export default function ResultPage() {
   return (
-    <>
-        <Navbar />
     <div className="min-h-[92vh] flex flex-col bg-white relative md:pt-[64px] justify-center">
       {/* Top Left Label */}
       <div className="absolute top-2 left-9 md:left-8 text-left">
@@ -139,6 +136,5 @@ export default function ResultPage() {
         </div>
       </div>
     </div>
-    </>
   );
 }

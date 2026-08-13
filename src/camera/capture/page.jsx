@@ -1,4 +1,3 @@
-import Navbar from "../components/Navbar";
 import { useEffect, useRef } from "react";
 import takePictureIcon from "../../assets/camera/take-picture-icon.png";
 
@@ -40,8 +39,6 @@ export default function CameraCapturePage() {
   };
 
   return (
-    <>
-    <Navbar />
     <div className="h-[90vh] w-screen">
       <div className="relative h-[92vh] w-screen overflow-hidden bg-gray-900">
 
@@ -93,6 +90,5 @@ export default function CameraCapturePage() {
         <canvas ref={canvasRef} className="hidden"></canvas>
       </div>
     </div>
-    </>
   );
 }
