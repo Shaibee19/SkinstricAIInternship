@@ -1,3 +1,4 @@
+import Navbar from "../components/Navbar";
 import resDiamondLg from "../assets/result/res-diamond-large.png";
 import resDiamondMd from "../assets/result/res-diamond-medium.png";
 import resDiamondSm from "../assets/result/res-diamond-small.png";
@@ -8,6 +9,8 @@ import galleryLine from "../assets/result/gallery-line.png";
 
 export default function ResultPage() {
   return (
+    <>
+        <Navbar />
     <div className="min-h-[92vh] flex flex-col bg-white relative md:pt-[64px] justify-center">
       {/* Top Left Label */}
       <div className="absolute top-2 left-9 md:left-8 text-left">
@@ -110,27 +113,7 @@ export default function ResultPage() {
         <div className="absolute bottom-8 w-full flex justify-between md:px-9 px-13">
 
           {/* Back Button */}
-          <a className="relative" aria-label="Back" href="/testing">
-            <div>
-              {/* Mobile */}
-              <div className="relative w-12 h-12 flex items-center justify-center border border-[#1A1B1C] rotate-45 sm:hidden">
-                <span className="rotate-[-45deg] text-xs font-semibold">
-                  BACK
-                </span>
-              </div>
-
-              {/* Desktop */}
-              <div className="group hidden sm:flex flex-row relative justify-center items-center">
-                <div className="w-12 h-12 hidden sm:flex justify-center border border-[#1A1B1C] rotate-45 scale-[0.85] group-hover:scale-[0.92] ease duration-300"></div>
-                <span className="absolute left-[15px] bottom-[13px] scale-[0.9] rotate-180 hidden sm:block group-hover:scale-[0.92] ease duration-300">
-                  ▶
-                </span>
-                <span className="text-sm font-semibold hidden sm:block ml-6 ">
-                  BACK
-                </span>
-              </div>
-            </div>
-          </a>
+          <BackButton href="/testing" label="BACK" />
 
           {/* Proceed Button (hidden until image is uploaded) */}
           <a href="/select">
@@ -156,5 +139,6 @@ export default function ResultPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

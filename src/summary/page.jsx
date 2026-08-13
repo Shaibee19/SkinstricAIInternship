@@ -1,5 +1,10 @@
+import Navbar from "../components/Navbar";
+import BackButton from "../components/BackButton";
+
 export default function SelectPage() {
   return (
+    <>
+      <Navbar />
     <div className="h-screen md:h-[90vh] flex flex-col md:mt-5">
       <main className="flex-1 w-full bg-white md:overflow-hidden overflow-auto">
         <div className="md:h-full max-w-full mx-5 px-4 md:px-0 flex flex-col">
@@ -265,25 +270,8 @@ export default function SelectPage() {
           <div className="pt-4 md:pt-[37px] pb-6 bg-white sticky bottom-40 md:static md:bottom-0 mb-8 md:mb-16">
             <div className="flex justify-between max-w-full mx-auto px-4 md:px-0">
 
-                {/* Back Button */}
-              <a href="/select">
-                <div>
-                  <div className="relative w-12 h-12 flex items-center justify-center border border-[#1A1B1C] rotate-45 scale-[1] sm:hidden">
-                    <span className="rotate-[-45deg] text-xs font-semibold sm:hidden">
-                      BACK
-                    </span>
-                  </div>
-                  <div className="group hidden sm:flex flex-row relative justify-center items-center">
-                    <div className="w-12 h-12 hidden sm:flex justify-center border border-[#1A1B1C] rotate-45 scale-[0.85] group-hover:scale-[0.92] ease duration-300"></div>
-                    <span className="absolute left-[15px] bottom-[13px] scale-[0.9] rotate-180 hidden sm:block group-hover:scale-[0.92] ease duration-300">
-                      ▶
-                    </span>
-                    <span className="text-sm font-semibold hidden sm:block ml-6 ">
-                      BACK
-                    </span>
-                  </div>
-                </div>
-              </a>
+                {/* Back Button */}    
+            <BackButton href="/select" label="BACK" />
 
               {/* Home Button */}
               <a href="/">
@@ -309,5 +297,6 @@ export default function SelectPage() {
         </div>
       </main>
     </div>
+    </>
   );
 }
