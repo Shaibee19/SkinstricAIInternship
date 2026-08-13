@@ -1,8 +1,44 @@
+import { useEffect, useRef } from "react";
+import takePictureIcon from "../../assets/camera/take-picture-icon.png";
 
+export default function CameraCapturePage() {
+    const videoRef = useRef(null);
+    const canvasRef = useRef(null);
 
+    // Start the camera feed
+    useEffect(() => {
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: "user" }
+            });
+            if (videoRef.current) {
+                videoRef.current.srcObject = stream;
+            }
+        } catch (err) {
+            console.error("Camera access error:", err);
+        }
+    }
+    startCamera();
+    }, []);
 
+    // Capture photo from the video feed
+    const capturePhoto = () => {
+        const video = videoRef.current;
+        const canvas = canvasRef.current;
 
+        if (!video || !canvas) return;
 
+        const context = canvas.getContext("2d");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0);
+
+        // Later will be: send canvas.toDataURL() to backend for processing
+        console.log("Photo captured!");
+    };
+
+return (
 <div class="h-[90vh] w-screen">
     <div class="relative h-[92vh] w-screen overflow-hidden bg-gray-900">
         <div class="absolute inset-0 z-10">
@@ -39,3 +75,5 @@
         <canvas class="hidden"></canvas>
     </div>
 </div>
+)
+}
