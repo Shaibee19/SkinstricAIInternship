@@ -1,6 +1,6 @@
-import diamondLarge from "../assets/diamond-large.png";
-import diamondMedium from "../assets/diamond-medium.png";
-import diamondSmall from "../assets/diamond-small.png";
+import diamondLarge from "../assets/diamonds/diamond-large.png";
+import diamondMedium from "../assets/diamonds/diamond-medium.png";
+import diamondSmall from "../assets/diamonds/diamond-small.png";
 
 export default function TestingPage() {
   return (
