@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SkinstricProvider } from "./context/SkintricContext.jsx";
 import Navbar from "./components/Navbar.jsx";
-import HomePage from "./page.jsx";
+import HomePage from "./home/page.jsx";
 import TestingPage from "./testing/page.jsx";
 import ResultPage from "./result/page.jsx";
 import CameraPage from "./camera/capture/page.jsx";
