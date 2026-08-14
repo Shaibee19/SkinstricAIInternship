@@ -1,9 +1,15 @@
 import { useEffect, useRef } from "react";
+import { useSkinstric } from "../../context/SkintricContext";
+import { useNavigate } from "react-router-dom";
 import takePictureIcon from "../../assets/camera/take-picture-icon.png";
+
+const { setPhaseTwoData } = useSkinstric();
+const navigate = useNavigate();
 
 export default function CameraCapturePage() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   // Start the camera feed
   useEffect(() => {
@@ -23,25 +29,52 @@ export default function CameraCapturePage() {
   }, []);
 
   // Capture photo from the video feed
-  const capturePhoto = () => {
+  const capturePhoto = async () => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
 
     if (!video || !canvas) return;
 
-    const context = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d");
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
-    context.drawImage(video, 0, 0);
 
-    // Later will be: send canvas.toDataURL() to backend for processing
-    console.log("Photo captured!");
+    // Draw video frame onto canvas
+    ctx.drawImage(video, 0, 0);
+
+    // Convert to base64
+    const base64 = canvas.toDataURL("image/jpeg");
+
+    try {
+      setLoading(true);
+
+      const response = await fetch(
+        "https://us-central1-api-skinstric-ai.cloudfunctions.net/skinstricPhaseTwo",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ image: base64 }),
+        },
+      );
+
+      const data = await response.json();
+
+      // Save globally
+      setPhaseTwoData(data);
+
+      // Navigate to select page
+      navigate("/select");
+    } catch (err) {
+      console.error("Phase Two error:", err);
+      alert("Something went wrong. Try again.");
+    }
+
+    setLoading(false);
   };
 
   return (
     <div className="h-[90vh] w-screen">
       <div className="relative h-[92vh] w-screen overflow-hidden bg-gray-900">
-
         {/* Video Feed */}
         <div className="absolute inset-0 z-10">
           <video
@@ -56,9 +89,9 @@ export default function CameraCapturePage() {
             <div className="font-semibold text-sm tracking-tight leading-[14px] text-[#FCFCFC] hidden sm:block">
               TAKE PICTURE
             </div>
-            <div 
-                className="transform hover:scale-105 ease-in-out duration-300 cursor-pointer" 
-                onClick={capturePhoto}
+            <div
+              className="transform hover:scale-105 ease-in-out duration-300 cursor-pointer"
+              onClick={capturePhoto}
             >
               <img
                 src={takePictureIcon}
@@ -88,6 +121,11 @@ export default function CameraCapturePage() {
 
         {/* Canvas for photo capture */}
         <canvas ref={canvasRef} className="hidden"></canvas>
+        {loading && (
+          <p className="absolute top-[55%] right-8 text-white text-sm font-semibold">
+            Processing…
+          </p>
+        )}
       </div>
     </div>
   );

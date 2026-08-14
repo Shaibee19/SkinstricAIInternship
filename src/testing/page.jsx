@@ -1,9 +1,50 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSkinstric } from "../context/SkintricContext";
 import BackButton from "../components/BackButton";
 import diamondLarge from "../assets/diamonds/diamond-large.png";
 import diamondMedium from "../assets/diamonds/diamond-medium.png";
 import diamondSmall from "../assets/diamonds/diamond-small.png";
 
 export default function TestingPage() {
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+  const { setPhaseOneData } = useSkinstric();
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    if (!input.trim()) return;
+
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        "https://us-central1-api-skinstric-ai.cloudfunctions.net/skinstricPhaseOne",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: input }),
+        },
+      );
+
+      const data = await response.json();
+
+      // Save API result globally
+      setPhaseOneData(data);
+
+      // Navigate to result page
+      navigate("/result");
+    } catch (err) {
+      console.error("Phase One API error:", err);
+      alert("Something went wrong. Try again.");
+    }
+
+    setLoading(false);
+  }
+
   return (
     <div className="min-h-[90vh] flex flex-col items-center justify-center bg-white text-center relative">
       {/* Top-left label */}

@@ -1,3 +1,6 @@
+import { useRef, useState } from "react";
+import { useSkinstric } from "../context/SkintricContext";
+import { useNavigate } from "react-router-dom";
 import resDiamondLg from "../assets/result/res-diamond-large.png";
 import resDiamondMd from "../assets/result/res-diamond-medium.png";
 import resDiamondSm from "../assets/result/res-diamond-small.png";
@@ -6,7 +9,49 @@ import cameraLine from "../assets/result/camera-line.png";
 import galleryIcon from "../assets/result/gallery-icon.png";
 import galleryLine from "../assets/result/gallery-line.png";
 
+const fileInputRef = useRef(null);
+const { setPhaseTwoData } = useSkinstric();
+const navigate = useNavigate();
+const [loading, setLoading] = useState(false);
+
 export default function ResultPage() {
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onloadend = async () => {
+      const base64 = reader.result;
+
+      try {
+        setLoading(true);
+
+        const response = await fetch(
+          "https://us-central1-api-skinstric-ai.cloudfunctions.net/skinstricPhaseTwo",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ image: base64 }),
+          },
+        );
+
+        const data = await response.json();
+
+        setPhaseTwoData(data);
+
+        navigate("/select");
+      } catch (err) {
+        console.error("Phase Two error:", err);
+        alert("Something went wrong. Try again.");
+      }
+
+      setLoading(false);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
   return (
     <div className="min-h-[92vh] flex flex-col bg-white relative md:pt-[64px] justify-center">
       {/* Top Left Label */}
@@ -16,7 +61,6 @@ export default function ResultPage() {
 
       {/* Main Container */}
       <div className="flex-[0.4] md:flex-1 flex flex-col md:flex-row items-center xl:justify-center relative mb-0 md:mb-30">
-
         {/* Camera Cluster */}
         <div className="relative md:absolute md:left-[55%] lg:left-[50%] xl:left-[40%] md:-translate-x-full flex flex-col items-center justify-center">
           <div className="w-[270px] h-[270px] md:w-[482px] md:h-[482px]"></div>
@@ -75,7 +119,10 @@ export default function ResultPage() {
             alt="DiamondSmall"
             className="absolute w-[190px] h-[190px] md:w-[405px] md:h-[405px] animate-spin-slowest"
           />
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <div
+            className="absolute inset-0 flex flex-col items-center justify-center"
+            onClick={() => fileInputRef.current.click()}
+          >
             <img
               src={galleryIcon}
               alt="Gallery Icon"
@@ -102,13 +149,23 @@ export default function ResultPage() {
           <div className="w-24 h-24 md:w-32 md:h-32 border border-gray-300 overflow-hidden"></div>
         </div>
 
-        <input className="hidden" accept="image/*" type="file" />
+        <input
+          type="file"
+          accept="image/*"
+          className="hidden"
+          ref={fileInputRef}
+          onChange={handleFileUpload}
+        />
       </div>
+      {loading && (
+        <p className="absolute top-[50%] left-1/2 -translate-x-1/2 text-sm font-semibold">
+          Processing…
+        </p>
+      )}
 
       {/* Navigation Bottom */}
       <div className="pt-4 pb-8 bg-white sticky md:static bottom-30.5">
         <div className="absolute bottom-8 w-full flex justify-between md:px-9 px-13">
-
           {/* Back Button */}
           <BackButton href="/testing" label="BACK" />
 

@@ -4,6 +4,7 @@ const SkinstricContext = createContext();
 
 export function SkinstricProvider({ children }) {
   const [phaseOneData, setPhaseOneData] = useState(null);
+  const [phaseTwoData, setPhaseTwoData] = useState(null);
 
   return (
     <SkinstricContext.Provider value={{ phaseOneData, setPhaseOneData }}>
