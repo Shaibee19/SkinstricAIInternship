@@ -58,12 +58,14 @@ export default function TestingPage() {
           CLICK TO TYPE
         </p>
 
-        <form className="relative z-10" onSubmit={(e) => e.preventDefault()}>
+        <form className="relative z-10" onSubmit={handleSubmit}>
           <div className="flex flex-col items-center"></div>
           <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
             className="text-5xl sm:text-6xl font-normal text-center bg-transparent border-b border-black focus:outline-none w-[372px] sm:w-[432px] pt-1 tracking-[-0.07em] leading-[64px] text-[#1A1B1C] z-10"
             placeholder="Introduce Yourself"
-            autocomplete="off"
+            autoComplete="off"
             type="text"
             name="name"
           />

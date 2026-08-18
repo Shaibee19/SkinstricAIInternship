@@ -1,3 +1,5 @@
+import radioButtonActive from "../assets/summary/radio-button-active.png";
+import radioButton from "../assets/summary/radio-button.png";
 import BackButton from "../components/BackButton";
 
 export default function SelectPage() {
@@ -6,7 +8,7 @@ export default function SelectPage() {
       <main className="flex-1 w-full bg-white md:overflow-hidden overflow-auto">
         <div className="md:h-full max-w-full mx-5 px-4 md:px-0 flex flex-col">
 
-            {/* Header */}
+          {/* Header */}
           <div className="text-start ml-4 mb-4 md:mb-10 md:ml-0">
             <h2 className="text-base font-semibold leading-[24px]">
               A.I. ANALYSIS
@@ -21,7 +23,7 @@ export default function SelectPage() {
 
           {/* Summary Grid */}
           <div className="grid md:grid-cols-[1.5fr_8.5fr_3.15fr] gap-4 mt-10 mb-40 md:gap-4">
-
+            
             {/* Left Column */}
             <div className="bg-white-100 space-y-3 md:flex md:flex-col h-[62%]">
               <div className="p-3 cursor-pointer  bg-[#1A1B1C] text-white hover:bg-black flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t">
@@ -42,7 +44,6 @@ export default function SelectPage() {
 
             {/* Middle Column */}
             <div className="relative bg-gray-100 p-4 flex flex-col items-center justify-center md:h-[57vh] md:border-t">
-
               <p className="hidden md:block md:absolute text-[40px] mb-2 left-5 top-2">
                 White
               </p>
@@ -63,9 +64,13 @@ export default function SelectPage() {
                                 a 49.15,49.15 0 1 1 0,98.3
                                 a 49.15,49.15 0 1 1 0,-98.3
                                 "
-                      stroke-width="1.7"
-                      fill-opacity="0"
-                      style="stroke-linecap: butt; stroke-dasharray: 308.819px, 308.819px; stroke-dashoffset: 0px;"
+                      strokeWidth="1.7"
+                      fillOpacity="0"
+                      style={{
+                        strokeLinecap: "butt",
+                        strokeDasharray: "308.819px, 308.819px",
+                        strokeDashoffset: "0px",
+                      }}
                     ></path>
                     <path
                       className="CircularProgressbar-path"
@@ -75,9 +80,15 @@ export default function SelectPage() {
                                 a 49.15,49.15 0 1 1 0,98.3
                                 a 49.15,49.15 0 1 1 0,-98.3
                                 "
-                      stroke-width="1.7"
-                      fill-opacity="0"
-                      style="stroke: rgb(26, 27, 28); stroke-linecap: butt; transition-duration: 0.8s; stroke-dasharray: 308.819px, 308.819px; stroke-dashoffset: 77.2046px;"
+                      strokeWidth="1.7"
+                      fillOpacity="0"
+                      style={{
+                        stroke: "rgb(26, 27, 28)",
+                        strokeLinecap: "butt",
+                        transitionDuration: "0.8s",
+                        strokeDasharray: "308.819px, 308.819px",
+                        strokeDashoffset: "77.2046px",
+                      }}
                     ></path>
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
@@ -108,16 +119,9 @@ export default function SelectPage() {
                 <div className="flex items-center justify-between h-[48px] hover:bg-[#E1E1E2] px-4 cursor-pointer bg-[#1A1B1C] text-white hover:bg-black">
                   <div className="flex items-center gap-1">
                     <img
+                      src={radioButton}
                       alt="radio button"
-                      loading="lazy"
-                      width="12"
-                      height="12"
-                      decoding="async"
-                      data-nimg="1"
                       className="w-[12px] h-[12px] mr-2"
-                      srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FactiveRadioButton.41014af7.png&amp;w=16&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2FactiveRadioButton.41014af7.png&amp;w=32&amp;q=75 2x"
-                      src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FactiveRadioButton.41014af7.png&amp;w=32&amp;q=75"
-                      style="color: transparent;"
                     />
                     <span className="font-normal text-base leading-6 tracking-tight">
                       White
@@ -130,16 +134,10 @@ export default function SelectPage() {
                 <div className="flex items-center justify-between h-[48px] hover:bg-[#E1E1E2] px-4 cursor-pointer ">
                   <div className="flex items-center gap-1">
                     <img
+                      src={radioButton}
                       alt="radio button"
                       loading="lazy"
-                      width="12"
-                      height="12"
-                      decoding="async"
-                      data-nimg="1"
                       className="w-[12px] h-[12px] mr-2"
-                      srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FradioButton.37eec272.png&amp;w=16&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2FradioButton.37eec272.png&amp;w=32&amp;q=75 2x"
-                      src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FradioButton.37eec272.png&amp;w=32&amp;q=75"
-                      style="color: transparent;"
                     />
                     <span className="font-normal text-base leading-6 tracking-tight">
                       Black
@@ -152,16 +150,9 @@ export default function SelectPage() {
                 <div className="flex items-center justify-between h-[48px] hover:bg-[#E1E1E2] px-4 cursor-pointer ">
                   <div className="flex items-center gap-1">
                     <img
+                      src={radioButton}
                       alt="radio button"
-                      loading="lazy"
-                      width="12"
-                      height="12"
-                      decoding="async"
-                      data-nimg="1"
                       className="w-[12px] h-[12px] mr-2"
-                      srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FradioButton.37eec272.png&amp;w=16&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2FradioButton.37eec272.png&amp;w=32&amp;q=75 2x"
-                      src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FradioButton.37eec272.png&amp;w=32&amp;q=75"
-                      style="color: transparent;"
                     />
                     <span className="font-normal text-base leading-6 tracking-tight">
                       South asian
@@ -174,16 +165,9 @@ export default function SelectPage() {
                 <div className="flex items-center justify-between h-[48px] hover:bg-[#E1E1E2] px-4 cursor-pointer ">
                   <div className="flex items-center gap-1">
                     <img
+                      src={radioButton}
                       alt="radio button"
-                      loading="lazy"
-                      width="12"
-                      height="12"
-                      decoding="async"
-                      data-nimg="1"
                       className="w-[12px] h-[12px] mr-2"
-                      srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FradioButton.37eec272.png&amp;w=16&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2FradioButton.37eec272.png&amp;w=32&amp;q=75 2x"
-                      src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FradioButton.37eec272.png&amp;w=32&amp;q=75"
-                      style="color: transparent;"
                     />
                     <span className="font-normal text-base leading-6 tracking-tight">
                       Southeast asian
@@ -196,16 +180,9 @@ export default function SelectPage() {
                 <div className="flex items-center justify-between h-[48px] hover:bg-[#E1E1E2] px-4 cursor-pointer ">
                   <div className="flex items-center gap-1">
                     <img
+                      src={radioButton}
                       alt="radio button"
-                      loading="lazy"
-                      width="12"
-                      height="12"
-                      decoding="async"
-                      data-nimg="1"
                       className="w-[12px] h-[12px] mr-2"
-                      srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FradioButton.37eec272.png&amp;w=16&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2FradioButton.37eec272.png&amp;w=32&amp;q=75 2x"
-                      src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FradioButton.37eec272.png&amp;w=32&amp;q=75"
-                      style="color: transparent;"
                     />
                     <span className="font-normal text-base leading-6 tracking-tight">
                       Latino hispanic
@@ -218,16 +195,9 @@ export default function SelectPage() {
                 <div className="flex items-center justify-between h-[48px] hover:bg-[#E1E1E2] px-4 cursor-pointer ">
                   <div className="flex items-center gap-1">
                     <img
+                      src={radioButton}
                       alt="radio button"
-                      loading="lazy"
-                      width="12"
-                      height="12"
-                      decoding="async"
-                      data-nimg="1"
                       className="w-[12px] h-[12px] mr-2"
-                      srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FradioButton.37eec272.png&amp;w=16&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2FradioButton.37eec272.png&amp;w=32&amp;q=75 2x"
-                      src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FradioButton.37eec272.png&amp;w=32&amp;q=75"
-                      style="color: transparent;"
                     />
                     <span className="font-normal text-base leading-6 tracking-tight">
                       Middle eastern
@@ -240,16 +210,9 @@ export default function SelectPage() {
                 <div className="flex items-center justify-between h-[48px] hover:bg-[#E1E1E2] px-4 cursor-pointer ">
                   <div className="flex items-center gap-1">
                     <img
+                      src={radioButton}
                       alt="radio button"
-                      loading="lazy"
-                      width="12"
-                      height="12"
-                      decoding="async"
-                      data-nimg="1"
                       className="w-[12px] h-[12px] mr-2"
-                      srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FradioButton.37eec272.png&amp;w=16&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2FradioButton.37eec272.png&amp;w=32&amp;q=75 2x"
-                      src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FradioButton.37eec272.png&amp;w=32&amp;q=75"
-                      style="color: transparent;"
                     />
                     <span className="font-normal text-base leading-6 tracking-tight">
                       East asian
@@ -266,9 +229,8 @@ export default function SelectPage() {
           {/* Footer Navigation */}
           <div className="pt-4 md:pt-[37px] pb-6 bg-white sticky bottom-40 md:static md:bottom-0 mb-8 md:mb-16">
             <div className="flex justify-between max-w-full mx-auto px-4 md:px-0">
-
-                {/* Back Button */}    
-            <BackButton href="/select" label="BACK" />
+              {/* Back Button */}
+              <BackButton href="/select" label="BACK" />
 
               {/* Home Button */}
               <a href="/">

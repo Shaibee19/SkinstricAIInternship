@@ -8,6 +8,7 @@ import cameraIcon from "../assets/result/camera-icon.png";
 import cameraLine from "../assets/result/camera-line.png";
 import galleryIcon from "../assets/result/gallery-icon.png";
 import galleryLine from "../assets/result/gallery-line.png";
+import BackButton from "../components/BackButton";
 
 export default function ResultPage() {
   const fileInputRef = useRef(null);
@@ -77,7 +78,7 @@ export default function ResultPage() {
             src={resDiamondSm}
             alt="DiamondSmall"
             className="absolute w-[190px] h-[190px] md:w-[405px] md:h-[405px] animate-spin-slowest"
-            style="color: transparent;"
+            style={{ color: 'transparent' }}
           />
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <img
@@ -172,7 +173,7 @@ export default function ResultPage() {
           <a href="/select">
             <div className="hidden">
               <div>
-                <div className=" w-12 h-12 flex items-center justify-center border border-[#1A1B1C] rotate-45 sm:hidden">
+                <div className=" w-12 h-12 flex items-center justify-center border border-[#1A1B1C] rotate-[45deg] sm:hidden">
                   <span className="rotate-[-45deg] text-xs font-semibold sm:hidden">
                     PROCEED
                   </span>
@@ -181,7 +182,7 @@ export default function ResultPage() {
                   <span className="text-sm font-semibold hidden sm:block mr-5">
                     PROCEED
                   </span>
-                  <div className=" w-12 h-12 hidden sm:flex justify-center border border-[#1A1B1C] rotate-45 scale-[0.85] group-hover:scale-[0.92] ease duration-300"></div>
+                  <div className=" w-12 h-12 hidden sm:flex justify-center border border-[#1A1B1C] rotate-[45deg] scale-[0.85] group-hover:scale-[0.92] ease duration-300"></div>
                   <span className="absolute right-[15px] bottom-[13px] scale-[0.9] hidden sm:block group-hover:scale-[0.92] ease duration-300">
                     ▶
                   </span>
