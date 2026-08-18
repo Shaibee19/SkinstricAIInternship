@@ -7,7 +7,9 @@ import diamondMedium from "../assets/diamonds/diamond-medium.png";
 import diamondSmall from "../assets/diamonds/diamond-small.png";
 
 export default function TestingPage() {
-  const [input, setInput] = useState("");
+  const [step, setStep] = useState(1);
+  const [name, setName] = useState("");
+  const [city, setCity] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -16,40 +18,51 @@ export default function TestingPage() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (!input.trim()) return;
-
-    setLoading(true);
-
-    try {
-      const response = await fetch(
-        "https://us-central1-api-skinstric-ai.cloudfunctions.net/skinstricPhaseOne",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: input }),
-        },
-      );
-
-      const data = await response.json();
-
-      // Save API result globally
-      setPhaseOneData(data);
-
-      // Navigate to result page
-      navigate("/result");
-    } catch (err) {
-      console.error("Phase One API error:", err);
-      alert("Something went wrong. Try again.");
+    if (step === 1) {
+      if (!name.trim()) return;
+      setStep(2);
+      return;
     }
 
-    setLoading(false);
+    if (step === 2) {
+      if (!city.trim()) return;
+
+      setLoading(true);
+
+      try {
+        const response = await fetch(
+          "https://us-central1-api-skinstric-ai.cloudfunctions.net/skinstricPhaseOne",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: `${name}, ${city}` }),
+          },
+        );
+
+        const data = await response.json();
+
+        // Save API result globally
+        setPhaseOneData(data);
+
+        // Navigate to result page
+        navigate("/result");
+      } catch (err) {
+        console.error("Phase One API error:", err);
+        alert("Something went wrong. Try again.");
+      }
+
+      setLoading(false);
+    }
   }
 
   return (
     <div className="min-h-[90vh] flex flex-col items-center justify-center bg-white text-center relative">
+
       {/* Top-left label */}
       <div className="absolute top-16 left-9 text-left">
-        <p className="font-semibold text-xs">TO START ANALYSIS</p>
+        <p className="font-semibold text-xs">
+          {step === 1 ? "TO START ANALYSIS" : "YOUR CITY NAME"}
+        </p>
       </div>
 
       {/* Input Section */}
@@ -61,13 +74,12 @@ export default function TestingPage() {
         <form className="relative z-10" onSubmit={handleSubmit}>
           <div className="flex flex-col items-center"></div>
           <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
+            value={step === 1 ? name : city}
+            onChange={(e) => step === 1 ? setName(e.target.value) : setCity(e.target.value)}
             className="text-5xl sm:text-6xl font-normal text-center bg-transparent border-b border-black focus:outline-none w-[372px] sm:w-[432px] pt-1 tracking-[-0.07em] leading-[64px] text-[#1A1B1C] z-10"
-            placeholder="Introduce Yourself"
+            placeholder={step === 1 ? "Introduce Yourself" : "Your City Name"}
             autoComplete="off"
             type="text"
-            name="name"
           />
           <button type="submit" className="sr-only" fdprocessedid="8h0c4xp">
             Submit
@@ -96,6 +108,12 @@ export default function TestingPage() {
       <div className="absolute bottom-38.5 md:bottom-8 w-full flex justify-between md:px-9 px-13">
         <BackButton href="/" label="BACK" />
       </div>
+
+      {loading && (
+        <p className="absolute top-[55%] right-8 text-black text-sm font-semibold">
+          Processing…
+        </p>
+      )}
     </div>
   );
 }
