@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "./page.jsx";
+import { SkinstricProvider } from "./context/SkinstricContext.jsx";
+import Navbar from "./components/Navbar.jsx";
+import HomePage from "./home/page.jsx";
 import TestingPage from "./testing/page.jsx";
 import ResultPage from "./result/page.jsx";
 import CameraPage from "./camera/capture/page.jsx";
@@ -8,16 +10,19 @@ import SummaryPage from "./summary/page.jsx";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/testing" element={<TestingPage />} />
-        <Route path="/result" element={<ResultPage />} />
-        <Route path="/camera" element={<CameraPage />} />
-        <Route path="/select" element={<SelectPage />} />
-        <Route path="/summary" element={<SummaryPage />} />
-      </Routes>
-    </BrowserRouter>
+    <SkinstricProvider>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/testing" element={<TestingPage />} />
+          <Route path="/result" element={<ResultPage />} />
+          <Route path="/camera" element={<CameraPage />} />
+          <Route path="/select" element={<SelectPage />} />
+          <Route path="/summary" element={<SummaryPage />} />
+        </Routes>
+      </BrowserRouter>
+    </SkinstricProvider>
   );
 }
 

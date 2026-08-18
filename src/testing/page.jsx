@@ -1,35 +1,101 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSkinstric } from "../context/SkinstricContext";
+import BackButton from "../components/BackButton";
+import diamondLarge from "../assets/diamonds/diamond-large.png";
+import diamondMedium from "../assets/diamonds/diamond-medium.png";
+import diamondSmall from "../assets/diamonds/diamond-small.png";
 
+export default function TestingPage() {
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
+  const { setPhaseOneData } = useSkinstric();
 
+  async function handleSubmit(e) {
+    e.preventDefault();
 
+    if (!input.trim()) return;
 
-<div class="min-h-[90vh] flex flex-col items-center justify-center bg-white text-center">
-    <div class="absolute top-16 left-9 text-left">
-        <p class="font-semibold text-xs">TO START ANALYSIS</p>
-    </div>
-    <div class="relative flex flex-col items-center justify-center mb-40 w-full h-full">
-        <p class="text-sm text-gray-400 tracking-wider uppercase mb-1">CLICK TO TYPE</p>
-        <form action="javascript:throw new Error('A React form was unexpectedly submitted. If you called form.submit() manually, consider using form.requestSubmit() instead. If you\'re trying to use event.stopPropagation() in a submit event handler, consider also calling event.preventDefault().')" class="relative z-10">
-            <div class="flex flex-col items-center"></div>
-            <input class="text-5xl sm:text-6xl font-normal text-center bg-transparent border-b border-black focus:outline-none appearance-none w-[372px] sm:w-[432px] pt-1 tracking-[-0.07em] leading-[64px] text-[#1A1B1C] z-10" placeholder="Introduce Yourself" autocomplete="off" type="text" name="name" fdprocessedid="bo5qgt" />
-            <button type="submit" class="sr-only" fdprocessedid="8h0c4xp">Submit</button>
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        "https://us-central1-api-skinstric-ai.cloudfunctions.net/skinstricPhaseOne",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: input }),
+        },
+      );
+
+      const data = await response.json();
+
+      // Save API result globally
+      setPhaseOneData(data);
+
+      // Navigate to result page
+      navigate("/result");
+    } catch (err) {
+      console.error("Phase One API error:", err);
+      alert("Something went wrong. Try again.");
+    }
+
+    setLoading(false);
+  }
+
+  return (
+    <div className="min-h-[90vh] flex flex-col items-center justify-center bg-white text-center relative">
+      {/* Top-left label */}
+      <div className="absolute top-16 left-9 text-left">
+        <p className="font-semibold text-xs">TO START ANALYSIS</p>
+      </div>
+
+      {/* Input Section */}
+      <div className="relative flex flex-col items-center justify-center mb-40 w-full h-full">
+        <p className="text-sm text-gray-400 tracking-wider uppercase mb-1">
+          CLICK TO TYPE
+        </p>
+
+        <form className="relative z-10" onSubmit={handleSubmit}>
+          <div className="flex flex-col items-center"></div>
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="text-5xl sm:text-6xl font-normal text-center bg-transparent border-b border-black focus:outline-none w-[372px] sm:w-[432px] pt-1 tracking-[-0.07em] leading-[64px] text-[#1A1B1C] z-10"
+            placeholder="Introduce Yourself"
+            autoComplete="off"
+            type="text"
+            name="name"
+          />
+          <button type="submit" className="sr-only" fdprocessedid="8h0c4xp">
+            Submit
+          </button>
         </form>
-        <img alt="Diamond Large" loading="lazy" width="762" height="762" decoding="async" data-nimg="1" class="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[480px] h-[480px] md:w-[762px] md:h-[762px] animate-spin-slow rotate-190" srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FDiamond-light-large.27413569.png&amp;w=828&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2FDiamond-light-large.27413569.png&amp;w=1920&amp;q=75 2x" src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FDiamond-light-large.27413569.png&amp;w=1920&amp;q=75" style="color: transparent;" />
-        <img alt="Diamond Medium" loading="lazy" width="682" height="682" decoding="async" data-nimg="1" class="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[400px] h-[400px] md:w-[682px] md:h-[682px] animate-spin-slower rotate-185" srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FDiamond-medium-medium.7599ea96.png&amp;w=750&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2FDiamond-medium-medium.7599ea96.png&amp;w=1920&amp;q=75 2x" src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FDiamond-medium-medium.7599ea96.png&amp;w=1920&amp;q=75" style="color: transparent;" />
-        <img alt="Diamond Small" loading="lazy" width="602" height="602" decoding="async" data-nimg="1" class="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[320px] h-[320px] md:w-[602px] md:h-[602px] animate-spin-slowest" srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FDiamond-dark-small.c887a101.png&amp;w=640&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2FDiamond-dark-small.c887a101.png&amp;w=1920&amp;q=75 2x" src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FDiamond-dark-small.c887a101.png&amp;w=1920&amp;q=75" style="color: transparent;" />
+
+        {/* Rotating Diamond Images */}
+        <img
+          src={diamondLarge}
+          alt="Diamond Large"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] h-[480px] md:w-[762px] md:h-[762px] animate-spin-slow rotate-190"
+        />
+        <img
+          src={diamondMedium}
+          alt="Diamond Medium"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[682px] md:h-[682px] animate-spin-slower rotate-185"
+        />
+        <img
+          src={diamondSmall}
+          alt="Diamond Small"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] md:w-[602px] md:h-[602px] animate-spin-slowest"
+        />
+      </div>
+
+      {/* Back Button */}
+      <div className="absolute bottom-38.5 md:bottom-8 w-full flex justify-between md:px-9 px-13">
+        <BackButton href="/" label="BACK" />
+      </div>
     </div>
-    <div class="absolute bottom-38.5 md:bottom-8 w-full flex justify-between md:px-9 px-13">
-        <a class="inset-0" aria-label="Back" href="/">
-            <div>
-                <div class="relative w-12 h-12 flex items-center justify-center border border-[#1A1B1C] rotate-45 scale-[1] sm:hidden">
-                    <span class="rotate-[-45deg] text-xs font-semibold sm:hidden">BACK</span>
-                </div>
-                <div class="group hidden sm:flex flex-row relative justify-center items-center">
-                    <div class="w-12 h-12 hidden sm:flex justify-center border border-[#1A1B1C] rotate-45 scale-[0.85] group-hover:scale-[0.92] ease duration-300"></div>
-                    <span class="absolute left-[15px] bottom-[13px] scale-[0.9] rotate-180 hidden sm:block group-hover:scale-[0.92] ease duration-300">▶</span>
-                    <span class="text-sm font-semibold hidden sm:block ml-6 ">BACK</span>
-                </div>
-            </div>
-        </a>
-    </div>
-</div>
+  );
+}
