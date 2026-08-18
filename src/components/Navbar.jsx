@@ -3,35 +3,37 @@ import rightBracket from "../assets/navbar/right-bracket.png";
 
 export default function Navbar() {
   return (
-    <div className="flex flex-row h-[64px] w-full justify-between py-3 mb-3 relative z-[1000]">
-        
+    <nav className="w-full h-[64px] flex items-center justify-between px-6 md:px-10 bg-white relative z-[1000]">
       {/* Left Section */}
-      <div className="flex flex-row pt-1 scale-75 justify-center items-center">
+      <div className="flex items-center gap-2">
         <a
-          className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-colors h-9 px-4 py-2 font-semibold text-sm mr-2 line-clamp-4 leading-[16px] text-[#1A1B1C] z-1000"
           href="/"
+          className="text-[#1A1B1C] font-semibold text-sm tracking-tight"
         >
           SKINSTRIC
         </a>
+
         <img
           src={leftBracket}
-          alt="left-bracket"
+          alt="left bracket"
           className="w-[4px] h-[17px]"
         />
-        <p className="text-[#1a1b1c83] text-opacity-70  font-semibold text-sm ml-1.5 mr-1.5">
+
+        <p className="text-[#1A1B1C80] font-semibold text-sm tracking-tight">
           INTRO
         </p>
+
         <img
           src={rightBracket}
-          alt="right-bracket"
+          alt="right bracket"
           className="w-[4px] h-[17px]"
         />
       </div>
 
       {/* Right Section */}
-      <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap font-semibold  transition-colors  disabled:pointer-events-none text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 mx-4 scale-[0.8] text-[#FCFCFC] text-[10px] bg-[#1A1B1C] leading-[16px]">
+      <button className="bg-[#1A1B1C] text-white text-[10px] font-semibold h-9 px-4 flex items-center justify-center tracking-tight hover:bg-black transition">
         ENTER CODE
       </button>
-    </div>
+    </nav>
   );
 }
