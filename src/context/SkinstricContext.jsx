@@ -7,7 +7,14 @@ export function SkinstricProvider({ children }) {
   const [phaseTwoData, setPhaseTwoData] = useState(null);
 
   return (
-    <SkinstricContext.Provider value={{ phaseOneData, setPhaseOneData }}>
+    <SkinstricContext.Provider 
+      value={{ 
+        phaseOneData, 
+        setPhaseOneData, 
+        phaseTwoData, 
+        setPhaseTwoData 
+        }}
+    >
       {children}
     </SkinstricContext.Provider>
   );

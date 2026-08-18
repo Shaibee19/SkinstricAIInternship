@@ -1,7 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSkinstric } from "../../context/SkinstricContext";
 import { useNavigate } from "react-router-dom";
 import takePictureIcon from "../../assets/camera/take-picture-icon.png";
+import BackButton from "../../components/BackButton";
 
 export default function CameraCapturePage() {
   const { setPhaseTwoData } = useSkinstric();
@@ -78,8 +79,8 @@ export default function CameraCapturePage() {
         <div className="absolute inset-0 z-10">
           <video
             ref={videoRef}
-            autoplay=""
-            playsinline=""
+            autoplay
+            playsinline
             className="absolute inset-0 w-full h-full object-cover"
           />
 
