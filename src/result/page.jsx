@@ -15,6 +15,12 @@ export default function ResultPage() {
   const { setPhaseTwoData } = useSkinstric();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [preview, setPreview] = useState(null);
+  const [showCameraModal, setShowCameraModal] = useState(false);
+  const [showPreparing, setShowPreparing] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
+  // Gallery Upload Flow
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -23,6 +29,8 @@ export default function ResultPage() {
 
     reader.onloadend = async () => {
       const base64 = reader.result;
+      setPreview(base64);
+      setShowPreparing(true);
 
       try {
         setLoading(true);
@@ -39,17 +47,35 @@ export default function ResultPage() {
         const data = await response.json();
 
         setPhaseTwoData(data);
+        setShowPreparing(false);
+        setShowSuccessPopup(true);
 
         navigate("/select");
       } catch (err) {
         console.error("Phase Two error:", err);
         alert("Something went wrong. Try again.");
+        setShowPreparing(false);
       }
 
       setLoading(false);
     };
 
     reader.readAsDataURL(file);
+  };
+
+  // Camera Flow
+  const handleCameraAllow = () => {
+    setShowCameraModal(false);
+    navigate("/camera");
+  };
+  const handleCameraDeny = () => {
+    setShowCameraModal(false);
+  };
+
+  // Success Popup
+  const handleSuccessOk = () => {
+    setShowSuccessPopup(false);
+    navigate("/select");
   };
 
   return (
@@ -62,7 +88,10 @@ export default function ResultPage() {
       {/* Main Container */}
       <div className="flex-[0.4] md:flex-1 flex flex-col md:flex-row items-center xl:justify-center relative mb-0 md:mb-30">
         {/* Camera Cluster */}
-        <div className="relative md:absolute md:left-[55%] lg:left-[50%] xl:left-[40%] md:-translate-x-full flex flex-col items-center justify-center">
+        <div
+          className="relative md:absolute md:left-[55%] lg:left-[50%] xl:left-[40%] md:-translate-x-full flex flex-col items-center justify-center"
+          onClick={() => setShowCameraModal(true)}
+        >
           <div className="w-[270px] h-[270px] md:w-[482px] md:h-[482px]"></div>
           <img
             src={resDiamondLg}
@@ -78,7 +107,7 @@ export default function ResultPage() {
             src={resDiamondSm}
             alt="DiamondSmall"
             className="absolute w-[190px] h-[190px] md:w-[405px] md:h-[405px] animate-spin-slowest"
-            style={{ color: 'transparent' }}
+            style={{ color: "transparent" }}
           />
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <img
@@ -146,7 +175,15 @@ export default function ResultPage() {
         {/* Preview box */}
         <div className="absolute top-[-75px] right-7 md:top-[-50px] md:right-8">
           <h1 className="text-xs md:text-sm font-normal mb-1">Preview</h1>
-          <div className="w-24 h-24 md:w-32 md:h-32 border border-gray-300 overflow-hidden"></div>
+          <div className="w-24 h-24 md:w-32 md:h-32 border border-gray-300 overflow-hidden">
+            {preview && (
+              <img
+                src={preview}
+                alt="Preview"
+                className="w-full h-full object-cover"
+              />
+            )}
+          </div>
         </div>
 
         <input
@@ -157,6 +194,7 @@ export default function ResultPage() {
           onChange={handleFileUpload}
         />
       </div>
+
       {loading && (
         <p className="absolute top-[50%] left-1/2 -translate-x-1/2 text-sm font-semibold">
           Processing…
@@ -168,6 +206,72 @@ export default function ResultPage() {
         <div className="absolute bottom-8 w-full flex justify-between md:px-9 px-13">
           {/* Back Button */}
           <BackButton href="/testing" label="BACK" />
+
+          {/* Camera Modal */}
+          {showCameraModal && (
+            <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[2000]">
+              <div className="bg-white w-[300px] p-6 rounded-md text-center shadow-lg">
+                <p className="text-sm font-semibold mb-4">
+                  ALLOW A.I. TO ACCESS YOUR CAMERA
+                </p>
+                <div className="flex justify-between mt-4">
+                  <button
+                    onClick={handleCameraDeny}
+                    className="px-4 py-2 border border-black text-sm"
+                  >
+                    DENY
+                  </button>
+                  <button
+                    onClick={handleCameraAllow}
+                    className="px-4 py-2 bg-black text-white text-sm"
+                  >
+                    ALLOW
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Preparing Screen */}
+          {showPreparing && (
+            <div className="fixed inset-0 bg-white flex flex-col items-center justify-center z-[3000]">
+              <div className="relative w-[300px] h-[300px] md:w-[500px] md:h-[500px]">
+                <img
+                  src={rectLg}
+                  className="absolute inset-0 w-full h-full animate-spin-slow"
+                />
+                <img
+                  src={rectMd}
+                  className="absolute inset-0 w-full h-full animate-spin-slower"
+                />
+                <img
+                  src={rectSm}
+                  className="absolute inset-0 w-full h-full animate-spin-slowest"
+                />
+              </div>
+
+              <p className="text-[#1A1B1C] text-sm md:text-base mt-6 tracking-wide">
+                PREPARING YOUR ANALYSIS…
+              </p>
+            </div>
+          )}
+
+          {/* Success Popup */}
+          {showSuccessPopup && (
+            <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[4000]">
+              <div className="bg-white w-[300px] p-6 rounded-md text-center shadow-lg">
+                <p className="text-sm font-semibold mb-4">
+                  Image analyzed successfully!
+                </p>
+                <button
+                  onClick={handleSuccessOk}
+                  className="px-4 py-2 bg-black text-white text-sm"
+                >
+                  OK
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Proceed Button (hidden until image is uploaded) */}
           <a href="/select">
@@ -183,9 +287,14 @@ export default function ResultPage() {
                     PROCEED
                   </span>
                   <div className=" w-12 h-12 hidden sm:flex justify-center border border-[#1A1B1C] rotate-[45deg] scale-[0.85] group-hover:scale-[0.92] ease duration-300"></div>
-                  <span className="absolute right-[15px] bottom-[13px] scale-[0.9] hidden sm:block group-hover:scale-[0.92] ease duration-300">
-                    ▶
-                  </span>
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    className="fill-current text-black absolute right-[15px] bottom-[13px] scale-[0.9] hidden sm:block group-hover:scale-[0.92] ease duration-300"
+                  >
+                    <path d="M8 5v14l11-7z"></path>
+                  </svg>
                 </div>
               </div>
             </div>
