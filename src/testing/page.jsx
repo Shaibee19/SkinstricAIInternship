@@ -5,6 +5,8 @@ import BackButton from "../components/BackButton";
 import diamondLarge from "../assets/diamonds/diamond-large.png";
 import diamondMedium from "../assets/diamonds/diamond-medium.png";
 import diamondSmall from "../assets/diamonds/diamond-small.png";
+import ProcessingSubmission from "../components/ProcessingSubmission";
+import ThankYou from "../components/ThankYou";
 import ProceedButton from "../components/ProceedButton";
 
 export default function TestingPage() {
@@ -12,6 +14,8 @@ export default function TestingPage() {
   const [name, setName] = useState("");
   const [city, setCity] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showProcessing, setShowProcessing] = useState(false);
+  const [showThankYou, setShowThankYou] = useState(false);
 
   const navigate = useNavigate();
   const { setPhaseOneData } = useSkinstric();
@@ -29,6 +33,13 @@ export default function TestingPage() {
       if (!city.trim()) return;
 
       setLoading(true);
+
+      setShowProcessing(true);
+
+      setTimeout(() => {
+        setShowProcessing(false);
+        setShowThankYou(true);
+      }, 1500);
 
       try {
         const response = await fetch(
@@ -112,9 +123,13 @@ export default function TestingPage() {
       </div>
 
       {loading && (
-        <p className="absolute top-[55%] right-8 text-black text-sm font-semibold">
-          Processing…
-        </p>
+        <>
+          <p className="absolute top-[55%] right-8 text-black text-sm font-semibold">
+            Processing…
+          </p>
+          <ProcessingSubmission show={showProcessing} />
+          <ThankYou show={showThankYou} />
+        </>
       )}
 
       {/* Proceed Button (hidden until both name and city are entered) */}

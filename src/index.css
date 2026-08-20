@@ -5,3 +5,18 @@
   --animate-spin-slower: spin 18s linear infinite;
   --animate-spin-slowest: spin 26s linear infinite;
 }
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(-40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.6s ease forwards;
+}

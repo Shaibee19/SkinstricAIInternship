@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import takePictureIcon from "../../assets/camera/take-picture-icon.png";
 import BackButton from "../../components/BackButton";
 import PreparingScreen from "../../components/PreparingScreen";
+import GreatShot from "../../components/GreatShot";
+import AnalyzingImage from "../../components/AnalyzingImage";
 import SuccessPopup from "../../components/SuccessPopup";
 
 export default function CameraCapturePage() {
@@ -14,6 +16,10 @@ export default function CameraCapturePage() {
   const [loading, setLoading] = useState(false);
   const [showPreparing, setShowPreparing] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [showAnalyzing, setShowAnalyzing] = useState(false);
+  const [capturedImage, setCapturedImage] = useState(null);
 
   // Start the camera feed
   useEffect(() => {
@@ -49,11 +55,12 @@ export default function CameraCapturePage() {
     // Convert to base64
     const base64 = canvas.toDataURL("image/jpeg");
 
-    setShowPreparing(true);
-
+    setCapturedImage(base64);
+    setShowPreview(true);
+    
     try {
       setLoading(true);
-
+      
       const response = await fetch(
         "https://us-central1-api-skinstric-ai.cloudfunctions.net/skinstricPhaseTwo",
         {
@@ -62,9 +69,9 @@ export default function CameraCapturePage() {
           body: JSON.stringify({ image: base64 }),
         },
       );
-
+      
       const data = await response.json();
-
+      
       // Save globally
       setPhaseTwoData(data);
       setShowPreparing(false);
@@ -74,8 +81,40 @@ export default function CameraCapturePage() {
       alert("Something went wrong. Try again.");
       setShowPreparing(false);
     }
-
+    
     setLoading(false);
+  };
+  
+    const handleRetake = () => {
+    setShowPreview(false);
+    setCapturedImage(null);
+  };
+
+  const handleUsePhoto = async () => {
+    setIsUploading(true);
+    setShowAnalyzing(true);
+
+    try {
+      const response = await fetch(
+        "https://us-central1-api-skinstric-ai.cloudfunctions.net/skinstricPhaseTwo",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ image: capturedImage }),
+        },
+      );
+
+      const data = await response.json();
+      setPhaseTwoData(data);
+
+      navigate("/select");
+    } catch (err) {
+      console.error("Phase Two error:", err);
+      alert("Something went wrong. Try again.");
+    }
+
+    setIsUploading(false);
+    setShowAnalyzing(false);
   };
 
   const handleSuccessOk = () => {
@@ -142,10 +181,19 @@ export default function CameraCapturePage() {
         {/* Preparing Screen */}
         {showPreparing && <PreparingScreen show={showPreparing} />}
 
-        {/* Success Popup */}
+        <GreatShot
+          show={showPreview}
+          onRetake={handleRetake}
+          onUse={handleUsePhoto}
+          isUploading={isUploading}
+        />
+
+        <AnalyzingImage show={showAnalyzing} />
+
+        {/* Success Popup
         {showSuccessPopup && (
           <SuccessPopup show={showSuccessPopup} onConfirm={handleSuccessOk} />
-        )}
+        )} */}
       </div>
     </div>
   );
