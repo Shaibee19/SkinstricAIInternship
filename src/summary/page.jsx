@@ -1,8 +1,88 @@
+import { useMemo, useState } from "react";
+import { useSkinstric } from "../context/SkinstricContext";
 import radioButtonActive from "../assets/summary/radio-button-active.png";
 import radioButton from "../assets/summary/radio-button.png";
 import BackButton from "../components/BackButton";
 
-export default function SelectPage() {
+export default function SummaryPage() {
+  const { phaseTwoData } = useSkinstric();
+
+  const parsed = useMemo(() => {
+    const safe = phaseTwoData?.data || {};
+    const race = safe.race || {};
+    const age = safe.age || {};
+    const gender = safe.gender || {};
+
+    const toArray = (obj) =>
+      Object.entries(obj).map(([label, value]) => ({
+        label,
+        confidence: Math.round((value || 0) * 100),
+      }));
+
+    const sortDesc = (arr) => arr.sort((a, b) => b.confidence - a.confidence);
+
+    const raceData = sortDesc(toArray(race));
+    const ageData = sortDesc(toArray(age));
+    const sexData = sortDesc(toArray(gender));
+
+    return { raceData, ageData, sexData };
+  }, [phaseTwoData]);
+
+  const { raceData, ageData, sexData } = parsed;
+
+  const [selectedCategory, setSelectedCategory] = useState("race");
+
+  const initialRace = raceData[0] || { label: "White", confidence: 75 };
+  const initialAge = ageData[0] || { label: "60-69", confidence: 64 };
+  const initialSex = sexData[0] || { label: "male", confidence: 52 };
+
+  const [selectedValue, setSelectedValue] = useState(initialRace.label);
+  const [selectedConfidence, setSelectedConfidence] = useState(
+    initialRace.confidence
+  );
+
+  const getCurrentList = () => {
+    if (selectedCategory === "race") return raceData.length ? raceData : [initialRace];
+    if (selectedCategory === "age") return ageData.length ? ageData : [initialAge];
+    if (selectedCategory === "sex") return sexData.length ? sexData : [initialSex];
+    return [];
+  };
+
+  const currentList = getCurrentList();
+
+  const getSubtitle = () => {
+    if (selectedCategory === "race") return "PREDICTED RACE";
+    if (selectedCategory === "age") return "PREDICTED AGE RANGE";
+    if (selectedCategory === "sex") return "PREDICTED SEX";
+    return "PREDICTED INFORMATION";
+  };
+
+  const circumference = 308.819;
+  const dashOffset =
+    circumference - (circumference * (selectedConfidence || 0)) / 100;
+
+  const handleLeftSelect = (category) => {
+    setSelectedCategory(category);
+    if (category === "race") {
+      setSelectedValue(initialRace.label);
+      setSelectedConfidence(initialRace.confidence);
+    } else if (category === "age") {
+      setSelectedValue(initialAge.label);
+      setSelectedConfidence(initialAge.confidence);
+    } else if (category === "sex") {
+      setSelectedValue(initialSex.label);
+      setSelectedConfidence(initialSex.confidence);
+    }
+  };
+
+  const formatLabel = (label) => {
+    if (!label) return "";
+    return label
+      .split(" ")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
+  };
+
   return (
     <div className="h-screen md:h-[90vh] flex flex-col md:mt-5">
       <main className="flex-1 w-full bg-white md:overflow-hidden overflow-auto">
@@ -17,7 +97,7 @@ export default function SelectPage() {
               DEMOGRAPHICS
             </h3>
             <h4 className="text-sm mt-2 leading-[24px]">
-              PREDICTED RACE & AGE
+              {getSubtitle()}
             </h4>
           </div>
 
@@ -26,26 +106,47 @@ export default function SelectPage() {
             
             {/* Left Column */}
             <div className="bg-white-100 space-y-3 md:flex md:flex-col h-[62%]">
-              <div className="p-3 cursor-pointer  bg-[#1A1B1C] text-white hover:bg-black flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t">
-                <p className="text-base font-semibold">White</p>
+
+              {/* RACE */}
+              <div className={`p-3 cursor-pointer  bg-[#1A1B1C] text-white hover:bg-black flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t 
+                ${ selectedCategory === "race"
+                    ? "bg-[#1A1B1C] text-white"
+                    : "bg-[#F3F3F4] hover:bg-[#E1E1E2]"
+                }`}
+                onClick={() => handleLeftSelect("race")}>
+                <p className="text-base font-semibold">{formatLabel(initialRace.label)}</p>
                 <h4 className="text-base font-semibold mb-1">RACE</h4>
               </div>
 
-              <div className="p-3 cursor-pointer  bg-[#F3F3F4] flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t">
-                <p className="text-base font-semibold">60-69</p>
+              {/* AGE */}
+              <div className={`p-3 cursor-pointer  bg-[#1A1B1C] flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t 
+                ${ selectedCategory === "age"
+                    ? "bg-[#1A1B1C] text-white"
+                    : "bg-[#F3F3F4] hover:bg-[#E1E1E2]"
+                }`}
+                onClick={() => handleLeftSelect("age")}>
+                <p className="text-base font-semibold">{initialAge.label}</p>
                 <h4 className="text-base font-semibold mb-1">AGE</h4>
               </div>
 
-              <div className="p-3 cursor-pointer  bg-[#F3F3F4] flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t">
-                <p className="text-base font-semibold">MALE</p>
+              {/* SEX */}
+              <div className={`p-3 cursor-pointer  bg-[#1A1B1C] flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t 
+                ${ selectedCategory === "sex"
+                    ? "bg-[#1A1B1C] text-white"
+                    : "bg-[#F3F3F4] hover:bg-[#E1E1E2]"
+                }`}
+                onClick={() => handleLeftSelect("sex")}>
+                <p className="text-base font-semibold">{formatLabel(initialSex.label)}</p>
                 <h4 className="text-base font-semibold mb-1">SEX</h4>
               </div>
             </div>
 
             {/* Middle Column */}
             <div className="relative bg-gray-100 p-4 flex flex-col items-center justify-center md:h-[57vh] md:border-t">
+
+              {/* Selected Label */}
               <p className="hidden md:block md:absolute text-[40px] mb-2 left-5 top-2">
-                White
+                {formatLabel(selectedValue)}
               </p>
 
               {/* Progress Circle */}
@@ -59,11 +160,11 @@ export default function SelectPage() {
                     <path
                       className="CircularProgressbar-trail"
                       d="
-                                M 50,50
-                                m 0,-49.15
-                                a 49.15,49.15 0 1 1 0,98.3
-                                a 49.15,49.15 0 1 1 0,-98.3
-                                "
+                        M 50,50
+                        m 0,-49.15
+                        a 49.15,49.15 0 1 1 0,98.3
+                        a 49.15,49.15 0 1 1 0,-98.3
+                      "
                       strokeWidth="1.7"
                       fillOpacity="0"
                       style={{
@@ -75,25 +176,26 @@ export default function SelectPage() {
                     <path
                       className="CircularProgressbar-path"
                       d="
-                                M 50,50
-                                m 0,-49.15
-                                a 49.15,49.15 0 1 1 0,98.3
-                                a 49.15,49.15 0 1 1 0,-98.3
-                                "
+                        M 50,50
+                        m 0,-49.15
+                        a 49.15,49.15 0 1 1 0,98.3
+                        a 49.15,49.15 0 1 1 0,-98.3
+                      "
                       strokeWidth="1.7"
                       fillOpacity="0"
                       style={{
                         stroke: "rgb(26, 27, 28)",
                         strokeLinecap: "butt",
                         transitionDuration: "0.8s",
-                        strokeDasharray: "308.819px, 308.819px",
-                        strokeDashoffset: "77.2046px",
+                        strokeDasharray: `${circumference}px, ${circumference}px`,
+                        strokeDashoffset: `${dashOffset}px`,
                       }}
                     ></path>
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <p className="text-3xl md:text-[40px] font-normal">
-                      75<span className="absolute text-xl md:text-3xl">%</span>
+                    <p className="text-3xl md:text-[40px] font-normal relative">
+                      {selectedConfidence || 0}
+                      <span className="absolute text-xl md:text-3xl">%</span>
                     </p>
                   </div>
                 </div>
@@ -110,125 +212,52 @@ export default function SelectPage() {
               <div className="space-y-0">
                 <div className="flex justify-between px-4">
                   <h4 className="text-base leading-[24px] tracking-tight font-medium mb-2">
-                    RACE
+                    {selectedCategory.toUpperCase()}
                   </h4>
                   <h4 className="text-base leading-[24px] tracking-tight font-medium mb-2">
                     A.I. CONFIDENCE
                   </h4>
                 </div>
-                <div className="flex items-center justify-between h-[48px] hover:bg-[#E1E1E2] px-4 cursor-pointer bg-[#1A1B1C] text-white hover:bg-black">
-                  <div className="flex items-center gap-1">
-                    <img
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      White
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    75%
-                  </span>
+                
+                {currentList.map((item) => {
+                  const isActive = item.label === selectedValue;
+                  return (
+                    <div
+                      key={item.label}
+                      className={`flex items-center justify-between h-[48px] px-4 cursor-pointer ${
+                        isActive
+                          ? "bg-[#1A1B1C] text-white"
+                          : "bg-white hover:bg-[#E1E1E2]"
+                      }`}
+                      onClick={() => {
+                        setSelectedValue(item.label);
+                        setSelectedConfidence(item.confidence);
+                      }}
+                    >
+                      <div className="flex items-center gap-1">
+                        <img
+                          src={isActive ? radioButtonActive : radioButton}
+                          alt="radio button"
+                          className="w-[12px] h-[12px] mr-2"
+                        />
+                        <span className="font-normal text-base leading-6 tracking-tight">
+                          {formatLabel(item.label)}
+                        </span>
+                      </div>
+                       <span className="font-normal text-base leading-6 tracking-tight">
+                        {item.confidence}%
+                      </span>
+                    </div>
+                  );
+                })}
                 </div>
-                <div className="flex items-center justify-between h-[48px] hover:bg-[#E1E1E2] px-4 cursor-pointer ">
-                  <div className="flex items-center gap-1">
-                    <img
-                      src={radioButton}
-                      alt="radio button"
-                      loading="lazy"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      Black
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    9%
-                  </span>
-                </div>
-                <div className="flex items-center justify-between h-[48px] hover:bg-[#E1E1E2] px-4 cursor-pointer ">
-                  <div className="flex items-center gap-1">
-                    <img
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      South asian
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    9%
-                  </span>
-                </div>
-                <div className="flex items-center justify-between h-[48px] hover:bg-[#E1E1E2] px-4 cursor-pointer ">
-                  <div className="flex items-center gap-1">
-                    <img
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      Southeast asian
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    2%
-                  </span>
-                </div>
-                <div className="flex items-center justify-between h-[48px] hover:bg-[#E1E1E2] px-4 cursor-pointer ">
-                  <div className="flex items-center gap-1">
-                    <img
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      Latino hispanic
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    1%
-                  </span>
-                </div>
-                <div className="flex items-center justify-between h-[48px] hover:bg-[#E1E1E2] px-4 cursor-pointer ">
-                  <div className="flex items-center gap-1">
-                    <img
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      Middle eastern
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    1%
-                  </span>
-                </div>
-                <div className="flex items-center justify-between h-[48px] hover:bg-[#E1E1E2] px-4 cursor-pointer ">
-                  <div className="flex items-center gap-1">
-                    <img
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      East asian
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    0%
-                  </span>
-                </div>
-              </div>
             </div>
           </div>
 
           {/* Footer Navigation */}
           <div className="pt-4 md:pt-[37px] pb-6 bg-white sticky bottom-40 md:static md:bottom-0 mb-8 md:mb-16">
             <div className="flex justify-between max-w-full mx-auto px-4 md:px-0">
+
               {/* Back Button */}
               <BackButton href="/select" label="BACK" />
 
@@ -245,9 +274,13 @@ export default function SelectPage() {
                       HOME
                     </span>
                     <div className=" w-12 h-12 hidden sm:flex justify-center border border-[#1A1B1C] rotate-45 scale-[0.85]"></div>
-                    <span className="absolute right-[15px] bottom-[13px] scale-[0.9] hidden sm:block">
-                      ▶
-                    </span>
+                     <svg
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    className="fill-current text-black absolute right-[15px] bottom-[13px] scale-[0.9] hidden sm:block">
+                    <path d="M8 5v14l11-7z"></path>
+                    </svg>
                   </div>
                 </div>
               </a>

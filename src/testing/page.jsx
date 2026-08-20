@@ -5,6 +5,7 @@ import BackButton from "../components/BackButton";
 import diamondLarge from "../assets/diamonds/diamond-large.png";
 import diamondMedium from "../assets/diamonds/diamond-medium.png";
 import diamondSmall from "../assets/diamonds/diamond-small.png";
+import ProceedButton from "../components/ProceedButton";
 
 export default function TestingPage() {
   const [step, setStep] = useState(1);
@@ -57,7 +58,6 @@ export default function TestingPage() {
 
   return (
     <div className="min-h-[90vh] flex flex-col items-center justify-center bg-white text-center relative">
-
       {/* Top-left label */}
       <div className="absolute top-16 left-9 text-left">
         <p className="font-semibold text-xs">
@@ -75,7 +75,9 @@ export default function TestingPage() {
           <div className="flex flex-col items-center"></div>
           <input
             value={step === 1 ? name : city}
-            onChange={(e) => step === 1 ? setName(e.target.value) : setCity(e.target.value)}
+            onChange={(e) =>
+              step === 1 ? setName(e.target.value) : setCity(e.target.value)
+            }
             className="text-5xl sm:text-6xl font-normal text-center bg-transparent border-b border-black focus:outline-none w-[372px] sm:w-[432px] pt-1 tracking-[-0.07em] leading-[64px] text-[#1A1B1C] z-10"
             placeholder={step === 1 ? "Introduce Yourself" : "Your City Name"}
             autoComplete="off"
@@ -114,6 +116,9 @@ export default function TestingPage() {
           Processing…
         </p>
       )}
+
+      {/* Proceed Button (hidden until both name and city are entered) */}
+      <ProceedButton />
     </div>
   );
 }

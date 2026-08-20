@@ -9,6 +9,9 @@ import cameraLine from "../assets/result/camera-line.png";
 import galleryIcon from "../assets/result/gallery-icon.png";
 import galleryLine from "../assets/result/gallery-line.png";
 import BackButton from "../components/BackButton";
+import CameraModal from "../components/CameraModal";
+import PreparingScreen from "../components/PreparingScreen";
+import SuccessPopup from "../components/SuccessPopup";
 
 export default function ResultPage() {
   const fileInputRef = useRef(null);
@@ -208,97 +211,19 @@ export default function ResultPage() {
           <BackButton href="/testing" label="BACK" />
 
           {/* Camera Modal */}
-          {showCameraModal && (
-            <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[2000]">
-              <div className="bg-white w-[300px] p-6 rounded-md text-center shadow-lg">
-                <p className="text-sm font-semibold mb-4">
-                  ALLOW A.I. TO ACCESS YOUR CAMERA
-                </p>
-                <div className="flex justify-between mt-4">
-                  <button
-                    onClick={handleCameraDeny}
-                    className="px-4 py-2 border border-black text-sm"
-                  >
-                    DENY
-                  </button>
-                  <button
-                    onClick={handleCameraAllow}
-                    className="px-4 py-2 bg-black text-white text-sm"
-                  >
-                    ALLOW
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
+          <CameraModal
+            show={showCameraModal}
+            onAllow={handleCameraAllow}
+            onDeny={handleCameraDeny}
+          />
 
           {/* Preparing Screen */}
-          {showPreparing && (
-            <div className="fixed inset-0 bg-white flex flex-col items-center justify-center z-[3000]">
-              <div className="relative w-[300px] h-[300px] md:w-[500px] md:h-[500px]">
-                <img
-                  src={rectLg}
-                  className="absolute inset-0 w-full h-full animate-spin-slow"
-                />
-                <img
-                  src={rectMd}
-                  className="absolute inset-0 w-full h-full animate-spin-slower"
-                />
-                <img
-                  src={rectSm}
-                  className="absolute inset-0 w-full h-full animate-spin-slowest"
-                />
-              </div>
-
-              <p className="text-[#1A1B1C] text-sm md:text-base mt-6 tracking-wide">
-                PREPARING YOUR ANALYSIS…
-              </p>
-            </div>
-          )}
+          {showPreparing && <PreparingScreen show={showPreparing} />}
 
           {/* Success Popup */}
           {showSuccessPopup && (
-            <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[4000]">
-              <div className="bg-white w-[300px] p-6 rounded-md text-center shadow-lg">
-                <p className="text-sm font-semibold mb-4">
-                  Image analyzed successfully!
-                </p>
-                <button
-                  onClick={handleSuccessOk}
-                  className="px-4 py-2 bg-black text-white text-sm"
-                >
-                  OK
-                </button>
-              </div>
-            </div>
+            <SuccessPopup show={showSuccessPopup} onConfirm={handleSuccessOk} />
           )}
-
-          {/* Proceed Button (hidden until image is uploaded) */}
-          <a href="/select">
-            <div className="hidden">
-              <div>
-                <div className=" w-12 h-12 flex items-center justify-center border border-[#1A1B1C] rotate-[45deg] sm:hidden">
-                  <span className="rotate-[-45deg] text-xs font-semibold sm:hidden">
-                    PROCEED
-                  </span>
-                </div>
-                <div className="group hidden sm:flex flex-row relative justify-center items-center">
-                  <span className="text-sm font-semibold hidden sm:block mr-5">
-                    PROCEED
-                  </span>
-                  <div className=" w-12 h-12 hidden sm:flex justify-center border border-[#1A1B1C] rotate-[45deg] scale-[0.85] group-hover:scale-[0.92] ease duration-300"></div>
-                  <svg
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    className="fill-current text-black absolute right-[15px] bottom-[13px] scale-[0.9] hidden sm:block group-hover:scale-[0.92] ease duration-300"
-                  >
-                    <path d="M8 5v14l11-7z"></path>
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </a>
         </div>
       </div>
     </div>

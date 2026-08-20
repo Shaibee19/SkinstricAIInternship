@@ -3,9 +3,8 @@ import { useSkinstric } from "../../context/SkinstricContext";
 import { useNavigate } from "react-router-dom";
 import takePictureIcon from "../../assets/camera/take-picture-icon.png";
 import BackButton from "../../components/BackButton";
-import rectLg from "../../assets/camera/cam-diamond-large.png";
-import rectMd from "../../assets/camera/cam-diamond-medium.png";
-import rectSm from "../../assets/camera/cam-diamond-small.png";
+import PreparingScreen from "../../components/PreparingScreen";
+import SuccessPopup from "../../components/SuccessPopup";
 
 export default function CameraCapturePage() {
   const { setPhaseTwoData } = useSkinstric();
@@ -141,44 +140,11 @@ export default function CameraCapturePage() {
         )}
 
         {/* Preparing Screen */}
-        {showPreparing && (
-          <div className="fixed inset-0 bg-white flex flex-col items-center justify-center z-[3000]">
-            <div className="relative w-[300px] h-[300px] md:w-[500px] md:h-[500px]">
-              <img
-                src={rectLg}
-                className="absolute inset-0 w-full h-full animate-spin-slow"
-              />
-              <img
-                src={rectMd}
-                className="absolute inset-0 w-full h-full animate-spin-slower"
-              />
-              <img
-                src={rectSm}
-                className="absolute inset-0 w-full h-full animate-spin-slowest"
-              />
-            </div>
-
-            <p className="text-[#1A1B1C] text-sm md:text-base mt-6 tracking-wide">
-              PREPARING YOUR ANALYSIS…
-            </p>
-          </div>
-        )}
+        {showPreparing && <PreparingScreen show={showPreparing} />}
 
         {/* Success Popup */}
         {showSuccessPopup && (
-          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[4000]">
-            <div className="bg-white w-[300px] p-6 rounded-md text-center shadow-lg">
-              <p className="text-sm font-semibold mb-4">
-                Image analyzed successfully!
-              </p>
-              <button
-                onClick={handleSuccessOk}
-                className="px-4 py-2 bg-black text-white text-sm"
-              >
-                OK
-              </button>
-            </div>
-          </div>
+          <SuccessPopup show={showSuccessPopup} onConfirm={handleSuccessOk} />
         )}
       </div>
     </div>

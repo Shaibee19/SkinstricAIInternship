@@ -9,7 +9,7 @@ export default function SelectPage() {
 
   return (
     <div className="relative w-full min-h-screen bg-white">
-        
+
       {/* Header */}
       <div className="absolute top-10 left-8 text-left mt-5">
         <h1 className="text-base font-semibold leading-[24px] tracking-tight">
@@ -60,7 +60,7 @@ export default function SelectPage() {
                   onMouseEnter={() => setHovered("demographics")}
                   onMouseLeave={() => setHovered(null)}
                   className={`w-[153.88px] h-[153.88px] bg-gray-200 hover:bg-gray-300 rotate-45 flex items-center justify-center -m-5 cursor-pointer font-semibold uppercase leading-[24px] tracking-tight transition-all duration-300 ${
-                    hovered === "demographics" ? "scale-[1.05]" : ""
+                    hovered === "demographics" ? "scale-[1.05]]" : ""
                   }`}
                 >
                   <span className="-rotate-45">Demographics</span>
@@ -97,11 +97,11 @@ export default function SelectPage() {
             {/* Bottom Center Button */}
             <div className="flex items-center justify-center row-start-3 col-start-2">
               <button
-                onMouseEnter={() => setHovered("skin")}
+                onMouseEnter={() => setHovered("weather")}
                 onMouseLeave={() => setHovered(null)}
                 className={`w-[153.88px] h-[153.88px] bg-gray-100 hover:bg-gray-300 rotate-45 flex items-center justify-center -m-5 font-semibold uppercase leading-[24px] tracking-tight cursor-not-allowed transition-all duration-300 ${
-                  hovered === "skin" ? "scale-[1.05]" : ""
-                }`}
+                hovered === "weather" ? "scale-[1.05]" : ""
+              }`}
               >
                 <span className="-rotate-45">Weather</span>
               </button>
