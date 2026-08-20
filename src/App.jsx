@@ -19,7 +19,7 @@ function App() {
           <Route path="/testing" element={<TestingPage />} />
           <Route path="/result" element={<ResultPage />} />
           <Route path="/camera" element={<CameraSetupPage />} />
-          <Route path="/camera" element={<CameraPage />} />
+          <Route path="/camera/capture" element={<CameraPage />} />
           <Route path="/select" element={<SelectPage />} />
           <Route path="/summary" element={<SummaryPage />} />
         </Routes>

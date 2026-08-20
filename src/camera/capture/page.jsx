@@ -92,8 +92,8 @@ export default function CameraCapturePage() {
         <div className="absolute inset-0 z-10">
           <video
             ref={videoRef}
-            autoplay
-            playsinline
+            autoPlay
+            playsInline
             className="absolute inset-0 w-full h-full object-cover"
           />
 
