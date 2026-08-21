@@ -103,12 +103,12 @@ export default function TestingPage() {
         <img
           src={diamondLarge}
           alt="Diamond Large"
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] h-[480px] md:w-[762px] md:h-[762px] animate-spin-slow rotate-190"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] h-[480px] md:w-[762px] md:h-[762px] animate-spin-slow rotate-[190deg]"
         />
         <img
           src={diamondMedium}
           alt="Diamond Medium"
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[682px] md:h-[682px] animate-spin-slower rotate-185"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[682px] md:h-[682px] animate-spin-slower rotate-[185deg]"
         />
         <img
           src={diamondSmall}
@@ -118,7 +118,7 @@ export default function TestingPage() {
       </div>
 
       {/* Back Button */}
-      <div className="absolute bottom-38.5 md:bottom-8 w-full flex justify-between md:px-9 px-13">
+      <div className="absolute bottom-[38.5] md:bottom-8 w-full flex justify-between md:px-9 px-13">
         <BackButton href="/" label="BACK" />
       </div>
 

@@ -199,8 +199,14 @@ export default function ResultPage() {
         />
       </div>
 
+      {loading && (
+          <p className="absolute top-[55%] right-8 text-black text-sm font-semibold">
+            Processing…
+          </p>
+      )} 
+
       {/* Navigation Bottom */}
-      <div className="pt-4 pb-8 bg-white sticky md:static bottom-30.5">
+      <div className="pt-4 pb-8 bg-white sticky md:static bottom-[30.5]">
         <div className="absolute bottom-8 w-full flex justify-between md:px-9 px-13">
           {/* Back Button */}
           <BackButton href="/testing" label="BACK" />
