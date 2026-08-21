@@ -64,13 +64,12 @@ export default function TestingPage() {
         setShowProcessing(false);
         setShowThankYou(true);
       }, 1500);
-
-      setLoading(false);
     }
   }
 
   return (
     <div className="min-h-[90vh] flex flex-col items-center justify-center bg-white text-center relative">
+      
       {/* Top-left label */}
       <div className="absolute top-16 left-9 text-left">
         <p className="font-semibold text-xs">
@@ -134,6 +133,7 @@ export default function TestingPage() {
             show={showThankYou}
             onProceed={() => {
               if (readyToProceed) {
+                setLoading(false);
                 navigate("/result");
               }
             }}
@@ -141,10 +141,6 @@ export default function TestingPage() {
         </>
       )}
 
-      {/* Proceed Button (hidden until both name and city are entered) */}
-      <div className="animate-slide-in-right">
-        <ProceedButton onClick={onProceed} />
-      </div>
     </div>
   );
 }
