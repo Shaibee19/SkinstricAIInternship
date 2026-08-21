@@ -5,7 +5,7 @@ import BackButton from "../components/buttons/BackButton";
 import diamondLarge from "../assets/diamonds/diamond-large.png";
 import diamondMedium from "../assets/diamonds/diamond-medium.png";
 import diamondSmall from "../assets/diamonds/diamond-small.png";
-import BouncingDots from "../components/BouncingDots";
+import RotatingDiamonds from "../components/RotatingDiamonds";
 import ThankYou from "../components/ThankYou";
 
 export default function TestingPage() {
@@ -68,7 +68,6 @@ export default function TestingPage() {
 
   return (
     <div className="min-h-[90vh] flex flex-col items-center justify-center bg-white text-center relative">
-
       {/* Top-left label */}
       <div className="absolute top-16 left-9 text-left">
         <p className="font-semibold text-xs">
@@ -127,7 +126,12 @@ export default function TestingPage() {
           <p className="absolute top-[55%] right-8 text-black text-sm font-semibold">
             Processing…
           </p>
-          <BouncingDots show={showProcessing} />
+          <RotatingDiamonds
+            show={showProcessing}
+            size="large"
+            text="Processing submission"
+            showDots={true}
+          />
           <ThankYou
             show={showThankYou}
             onProceed={() => {
@@ -139,7 +143,6 @@ export default function TestingPage() {
           />
         </>
       )}
-
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { useSkinstric } from "../../context/SkinstricContext";
 import { useNavigate } from "react-router-dom";
 import takePictureIcon from "../../assets/camera/take-picture-icon.png";
 import BackButton from "../../components/buttons/BackButton";
-import PreparingScreen from "../../components/PreparingScreen";
+// import Bouncing from "../../components/PreparingScreen";
 import GreatShot from "../../components/GreatShot";
 import AnalyzingImage from "../../components/AnalyzingImage";
 import SuccessPopup from "../../components/SuccessPopup";
@@ -57,10 +57,10 @@ export default function CameraCapturePage() {
 
     setCapturedImage(base64);
     setShowPreview(true);
-    
+
     try {
       setLoading(true);
-      
+
       const response = await fetch(
         "https://us-central1-api-skinstric-ai.cloudfunctions.net/skinstricPhaseTwo",
         {
@@ -69,9 +69,9 @@ export default function CameraCapturePage() {
           body: JSON.stringify({ image: base64 }),
         },
       );
-      
+
       const data = await response.json();
-      
+
       // Save globally
       setPhaseTwoData(data);
       setShowPreparing(false);
@@ -81,14 +81,20 @@ export default function CameraCapturePage() {
       alert("Something went wrong. Try again.");
       setShowPreparing(false);
     }
-    
+
     setLoading(false);
   };
-  
-    const handleRetake = () => {
+
+  const handleRetake = () => {
     setShowPreview(false);
     setCapturedImage(null);
   };
+  
+    const handleSuccessOk = () => {
+      setShowSuccessPopup(false);
+      // Navigate to select page
+      navigate("/select");
+    };
 
   const handleUsePhoto = async () => {
     setIsUploading(true);
@@ -107,20 +113,18 @@ export default function CameraCapturePage() {
       const data = await response.json();
       setPhaseTwoData(data);
 
-      navigate("/select");
     } catch (err) {
       console.error("Phase Two error:", err);
       alert("Something went wrong. Try again.");
     }
 
+    // Keep analyzing overlay visible long enough
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
     setIsUploading(false);
     setShowAnalyzing(false);
-  };
-
-  const handleSuccessOk = () => {
-    setShowSuccessPopup(false);
-    // Navigate to select page
-    navigate("/select");
+    setShowSuccessPopup(true);
+    
   };
 
   return (
@@ -128,12 +132,14 @@ export default function CameraCapturePage() {
       <div className="relative h-[92vh] w-screen overflow-hidden bg-gray-900">
         {/* Video Feed */}
         <div className="absolute inset-0 z-10">
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover"
-          />
+          {!showPreview && (
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          )}
 
           {/* Take Picture Button */}
           <div className="absolute right-8 top-1/2 -translate-y-1/2 z-20 flex items-center space-x-3">
@@ -171,15 +177,21 @@ export default function CameraCapturePage() {
         </div>
 
         {/* Canvas for photo capture */}
-        <canvas ref={canvasRef} className="hidden"></canvas>
+        <canvas ref={canvasRef} className="hidden" />
+        {showPreview && capturedImage && (
+          <img
+            src={capturedImage}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        )}
         {loading && (
           <p className="absolute top-[55%] right-8 text-white text-sm font-semibold">
             Processing…
           </p>
         )}
 
-        {/* Preparing Screen */}
-        {showPreparing && <PreparingScreen show={showPreparing} />}
+        {/* Preparing Screen
+        {showPreparing && <PreparingScreen show={showPreparing} />} */}
 
         <GreatShot
           show={showPreview}
@@ -190,10 +202,10 @@ export default function CameraCapturePage() {
 
         <AnalyzingImage show={showAnalyzing} />
 
-        {/* Success Popup
+        {/* Success Popup */}
         {showSuccessPopup && (
           <SuccessPopup show={showSuccessPopup} onConfirm={handleSuccessOk} />
-        )} */}
+        )}
       </div>
     </div>
   );

@@ -10,6 +10,7 @@ import galleryIcon from "../assets/result/gallery-icon.png";
 import galleryLine from "../assets/result/gallery-line.png";
 import BackButton from "../components/buttons/BackButton";
 import CameraModal from "../components/CameraModal";
+import RotatingDiamonds from "../components/RotatingDiamonds";
 import BouncingDots from "../components/BouncingDots";
 import SuccessPopup from "../components/SuccessPopup";
 
@@ -56,7 +57,6 @@ export default function ResultPage() {
         // Hide preparing -> show success popup
         setShowPreparing(false);
         setShowSuccessPopup(true);
-
       } catch (err) {
         console.error("Phase Two error:", err);
         alert("Something went wrong. Try again.");
@@ -200,10 +200,10 @@ export default function ResultPage() {
       </div>
 
       {loading && (
-          <p className="absolute top-[55%] right-8 text-black text-sm font-semibold">
-            Processing…
-          </p>
-      )} 
+        <p className="absolute top-[55%] right-8 text-black text-sm font-semibold">
+          Processing…
+        </p>
+      )}
 
       {/* Navigation Bottom */}
       <div className="pt-4 pb-8 bg-white sticky md:static bottom-[30.5]">
@@ -220,9 +220,11 @@ export default function ResultPage() {
 
           {/* Preparing Screen */}
           {showPreparing && (
-            <BouncingDots
+            <RotatingDiamonds
               show={showPreparing}
+              size="small"
               text="Preparing your analysis…"
+              showDots={true}
             />
           )}
 

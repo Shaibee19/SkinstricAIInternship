@@ -1,3 +1,7 @@
+import diamondLarge from "../assets/diamonds/diamond-large.png";
+import diamondMedium from "../assets/diamonds/diamond-medium.png";
+import diamondSmall from "../assets/diamonds/diamond-small.png";
+
 export default function BouncingDots({ show, text = "Processing submission" }) {
   if (!show) return null;
 
@@ -7,9 +11,9 @@ export default function BouncingDots({ show, text = "Processing submission" }) {
 
         {/* Dotted Squares */}
         <div className="absolute inset-0">
-          <div className="absolute inset-0 border border-gray-300 rotate-45 opacity-60"></div>
-          <div className="absolute inset-0 border border-gray-300 rotate-[55deg] opacity-40"></div>
-          <div className="absolute inset-0 border border-gray-300 rotate-[65deg] opacity-30"></div>
+          <div className="absolute inset-0 border border-gray-300 animate-spin-slow rotate-45 opacity-60"></div>
+          <div className="absolute inset-0 border border-gray-300 animate-spin-slower rotate-[55deg] opacity-40"></div>
+          <div className="absolute inset-0 border border-gray-300 animate-spin-slowest rotate-[65deg] opacity-30"></div>
         </div>
 
         {/* Text */}

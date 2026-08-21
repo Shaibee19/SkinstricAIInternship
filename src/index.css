@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --animate-spin-slow: spin 12s linear infinite;
-  --animate-spin-slower: spin 18s linear infinite;
-  --animate-spin-slowest: spin 26s linear infinite;
+  --animate-spin-slow: spin 20s linear infinite;
+  --animate-spin-slower: spin 30s linear infinite;
+  --animate-spin-slowest: spin 40s linear infinite;
 }
 
 @keyframes fade-in {
