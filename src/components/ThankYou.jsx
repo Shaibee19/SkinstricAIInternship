@@ -1,7 +1,7 @@
 import ProceedButton from "./buttons/ProceedButton";
 import BackButton from "./buttons/BackButton";
 
-export default function TestingThankYou({ show }) {
+export default function ThankYou({ show, onProceed }) {
   if (!show) return null;
 
   return (
@@ -19,7 +19,7 @@ export default function TestingThankYou({ show }) {
         Thank you!
       </p>
       <p className="text-[#1A1B1C] text-sm md:text-base mt-1 tracking-wide">
-        Proceed for the next step
+        Proceed to the next step
       </p>
 
       {/* Buttons */}
@@ -28,7 +28,7 @@ export default function TestingThankYou({ show }) {
         <BackButton href="/testing" label="BACK" />
 
         <div className="animate-slide-in-right">
-          <ProceedButton href="/result" label="PROCEED" />
+          <ProceedButton onClick={onProceed} />
         </div>
 
       </div>

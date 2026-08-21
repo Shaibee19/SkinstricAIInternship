@@ -2,6 +2,7 @@ import { useState } from "react";
 import diamondLarge from "../assets/diamonds/diamond-large.png";
 import diamondMedium from "../assets/diamonds/diamond-medium.png";
 import diamondSmall from "../assets/diamonds/diamond-small.png";
+import { Link } from "react-router-dom";
 import BackButton from "../components/buttons/BackButton";
 import SummaryButton from "../components/buttons/SummaryButton";
 
@@ -69,7 +70,7 @@ export default function SelectPage() {
 
             {/* Top Center Button */}
             <div className="flex items-center justify-center col-start-2">
-              <a href="/summary">
+              <Link to="/summary">
                 <button
                   onMouseEnter={() => setHovered("demographics")}
                   onMouseLeave={() => setHovered(null)}
@@ -79,7 +80,7 @@ export default function SelectPage() {
                 >
                   <span className="-rotate-45">Demographics</span>
                 </button>
-              </a>
+              </Link>
             </div>
 
             {/* Middle Left Button */}

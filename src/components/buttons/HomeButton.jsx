@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
+
 export default function HomeButton({ href = "/", label = "HOME" }) {
   return (
-    <a href={href}>
+    <Link to={href}>
       <div>
         {/* Mobile */}
         <div className="w-12 h-12 flex items-center justify-center border border-[#1A1B1C] rotate-45 scale-[1] sm:hidden">
@@ -23,6 +25,6 @@ export default function HomeButton({ href = "/", label = "HOME" }) {
           </svg>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }

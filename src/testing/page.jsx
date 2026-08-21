@@ -16,6 +16,7 @@ export default function TestingPage() {
   const [loading, setLoading] = useState(false);
   const [showProcessing, setShowProcessing] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
+  const [readyToProceed, setReadyToProceed] = useState(false);
 
   const navigate = useNavigate();
   const { setPhaseOneData } = useSkinstric();
@@ -33,21 +34,16 @@ export default function TestingPage() {
       if (!city.trim()) return;
 
       setLoading(true);
-
       setShowProcessing(true);
 
-      setTimeout(() => {
-        setShowProcessing(false);
-        setShowThankYou(true);
-      }, 1500);
-
+      // Start API call immediately
       try {
         const response = await fetch(
           "https://us-central1-api-skinstric-ai.cloudfunctions.net/skinstricPhaseOne",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text: `${name}, ${city}` }),
+            body: JSON.stringify({ name: `${name}`, location: `${city}` }),
           },
         );
 
@@ -56,12 +52,18 @@ export default function TestingPage() {
         // Save API result globally
         setPhaseOneData(data);
 
-        // Navigate to result page
-        navigate("/result");
+        // API is done — user can proceed
+        setReadyToProceed(true);
       } catch (err) {
         console.error("Phase One API error:", err);
         alert("Something went wrong. Try again.");
       }
+
+      // Show Processing → then Thank You
+      setTimeout(() => {
+        setShowProcessing(false);
+        setShowThankYou(true);
+      }, 1500);
 
       setLoading(false);
     }
@@ -128,12 +130,21 @@ export default function TestingPage() {
             Processing…
           </p>
           <ProcessingSubmission show={showProcessing} />
-          <ThankYou show={showThankYou} />
+          <ThankYou
+            show={showThankYou}
+            onProceed={() => {
+              if (readyToProceed) {
+                navigate("/result");
+              }
+            }}
+          />
         </>
       )}
 
       {/* Proceed Button (hidden until both name and city are entered) */}
-      <ProceedButton />
+      <div className="animate-slide-in-right">
+        <ProceedButton onClick={onProceed} />
+      </div>
     </div>
   );
 }

@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
+
 export default function BackButton({ href = "/", label = "BACK" }) {
   return (
-    <a href={href}>
+    <Link to={href}>
       <div>
         {/* Mobile */}
         <div className="relative w-12 h-12 flex items-center justify-center border border-[#1A1B1C] rotate-45 sm:hidden">
@@ -23,6 +25,6 @@ export default function BackButton({ href = "/", label = "BACK" }) {
           <span className="text-sm font-semibold ml-6">{label}</span>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }
