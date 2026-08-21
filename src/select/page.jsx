@@ -1,17 +1,17 @@
 import { useState } from "react";
-import BackButton from "../components/buttons/BackButton";
 import diamondLarge from "../assets/diamonds/diamond-large.png";
 import diamondMedium from "../assets/diamonds/diamond-medium.png";
 import diamondSmall from "../assets/diamonds/diamond-small.png";
+import BackButton from "../components/buttons/BackButton";
+import SummaryButton from "../components/buttons/SummaryButton";
 
 export default function SelectPage() {
   const [hovered, setHovered] = useState(null);
 
   return (
     <div className="relative w-full min-h-screen bg-white">
-
       {/* Header */}
-      <div className="absolute top-10 left-8 text-left mt-5">
+      <div className="absolute left-8 text-left mt-5">
         <h1 className="text-base font-semibold leading-[24px] tracking-tight">
           A.I. ANALYSIS
         </h1>
@@ -24,29 +24,43 @@ export default function SelectPage() {
 
       {/* Main Content */}
       <div className="h-[78.3vh] flex flex-col items-center justify-center bg-white">
-        <div className="relative">
+        <div className="relative w-[400px] h-[400px] flex items-center justify-center">
+
           {/* Diamond Background Animations */}
-          <div className="relative w-[400px] h-[400px]">
+          <div className="absolute inset-0 flex items-center justify-center">
             <img
               src={diamondSmall}
               alt="Diamond Small"
-              className={`absolute inset-0 w-full h-full object-contain transition-all duration-500 ${
-                hovered ? "opacity-100" : "opacity-0"
-              }`}
+              className={`
+                absolute inset-0 w-full h-full object-contain transition-all duration-500
+                ${hovered === "demographics" 
+                  ? "opacity-100 scale-150" 
+                  : "opacity-0 scale-75"
+                }
+              `}
             />
             <img
               src={diamondMedium}
               alt="Diamond Medium"
-              className={`absolute inset-0 w-full h-full object-contain transition-all duration-500 ${
-                hovered ? "opacity-100" : "opacity-0"
-              }`}
+              className={`
+                absolute inset-0 w-full h-full object-contain transition-all duration-500
+                ${
+                  hovered === "cosmetic" || hovered === "skin"
+                    ? "opacity-100 scale-175"
+                    : "opacity-0 scale-75"
+                }
+              `}
             />
             <img
               src={diamondLarge}
               alt="Diamond Large"
-              className={`absolute inset-0 w-full h-full object-contain transition-all duration-500 ${
-                hovered ? "opacity-100" : "opacity-0"
-              }`}
+              className={`
+                absolute inset-0 w-full h-full object-contain transition-all duration-500
+                ${hovered === "weather" 
+                  ? "opacity-100 scale-200" 
+                  : "opacity-0 scale-75"
+                }
+              `}
             />
           </div>
 
@@ -59,8 +73,8 @@ export default function SelectPage() {
                 <button
                   onMouseEnter={() => setHovered("demographics")}
                   onMouseLeave={() => setHovered(null)}
-                  className={`w-[153.88px] h-[153.88px] bg-gray-200 hover:bg-gray-300 rotate-45 flex items-center justify-center -m-5 cursor-pointer font-semibold uppercase leading-[24px] tracking-tight transition-all duration-300 ${
-                    hovered === "demographics" ? "scale-[1.05]]" : ""
+                  className={`w-[153.88px] h-[153.88px] bg-gray-200 hover:bg-gray-300 rotate-45 flex items-center justify-center -m-20 cursor-pointer font-semibold uppercase leading-[24px] tracking-tight transition-all duration-300 ${
+                    hovered === "demographics" ? "scale-[1.05]" : ""
                   }`}
                 >
                   <span className="-rotate-45">Demographics</span>
@@ -73,7 +87,7 @@ export default function SelectPage() {
               <button
                 onMouseEnter={() => setHovered("cosmetic")}
                 onMouseLeave={() => setHovered(null)}
-                className={`w-[153.88px] h-[153.88px] bg-gray-100 hover:bg-gray-300 rotate-45 flex items-center justify-center -m-5 font-semibold uppercase leading-[24px] tracking-tight cursor-not-allowed transition-all duration-300 ${
+                className={`w-[153.88px] h-[153.88px] bg-gray-100 hover:bg-gray-300 rotate-45 flex items-center justify-center -m-20 font-semibold uppercase leading-[24px] tracking-tight cursor-not-allowed transition-all duration-300 ${
                   hovered === "cosmetic" ? "scale-[1.05]" : ""
                 }`}
               >
@@ -100,8 +114,8 @@ export default function SelectPage() {
                 onMouseEnter={() => setHovered("weather")}
                 onMouseLeave={() => setHovered(null)}
                 className={`w-[153.88px] h-[153.88px] bg-gray-100 hover:bg-gray-300 rotate-45 flex items-center justify-center -m-5 font-semibold uppercase leading-[24px] tracking-tight cursor-not-allowed transition-all duration-300 ${
-                hovered === "weather" ? "scale-[1.05]" : ""
-              }`}
+                  hovered === "weather" ? "scale-[1.05]" : ""
+                }`}
               >
                 <span className="-rotate-45">Weather</span>
               </button>
@@ -113,38 +127,11 @@ export default function SelectPage() {
       {/* Navigation Bottom */}
       <div className="pt-4 md:pt-12 pb-8 bg-white sticky md:static bottom-40">
         <div className="flex justify-between w-full px-13 md:px-9">
-
           {/* Back Button */}
           <BackButton href="/result" label="BACK" />
 
           {/* Summary Button */}
-          <a href="/summary">
-            <div>
-
-              {/* Mobile */}
-              <div className=" w-12 h-12 flex items-center justify-center border border-[#1A1B1C] rotate-45 scale-[1] sm:hidden">
-                <span className="rotate-[-45deg] text-xs font-semibold sm:hidden">
-                  SUM
-                </span>
-              </div>
-
-              {/* Desktop */}
-              <div className="group hidden sm:flex flex-row relative justify-center items-center">
-                <span className="text-sm font-semibold hidden sm:block mr-5">
-                  GET SUMMARY
-                </span>
-                <div className=" w-12 h-12 hidden sm:flex justify-center border border-[#1A1B1C] rotate-45 scale-[0.85] group-hover:scale-[0.92] ease duration-300"></div>
-                <svg
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  className="fill-current text-black absolute right-[15px] bottom-[13px] scale-[0.9] hidden sm:block group-hover:scale-[0.92] ease duration-300"
-                >
-                  <path d="M8 5v14l11-7z"></path>
-                </svg>
-              </div>
-            </div>
-          </a>
+          <SummaryButton href="/summary" label1="SUM" label2="GET SUMMARY" />
         </div>
       </div>
     </div>
