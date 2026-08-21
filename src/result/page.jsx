@@ -8,7 +8,7 @@ import cameraIcon from "../assets/result/camera-icon.png";
 import cameraLine from "../assets/result/camera-line.png";
 import galleryIcon from "../assets/result/gallery-icon.png";
 import galleryLine from "../assets/result/gallery-line.png";
-import BackButton from "../components/BackButton";
+import BackButton from "../components/buttons/BackButton";
 import CameraModal from "../components/CameraModal";
 import PreparingScreen from "../components/PreparingScreen";
 import SuccessPopup from "../components/SuccessPopup";

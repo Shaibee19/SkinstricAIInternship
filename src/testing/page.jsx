@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSkinstric } from "../context/SkinstricContext";
-import BackButton from "../components/BackButton";
+import BackButton from "../components/buttons/BackButton";
 import diamondLarge from "../assets/diamonds/diamond-large.png";
 import diamondMedium from "../assets/diamonds/diamond-medium.png";
 import diamondSmall from "../assets/diamonds/diamond-small.png";
 import ProcessingSubmission from "../components/ProcessingSubmission";
 import ThankYou from "../components/ThankYou";
-import ProceedButton from "../components/ProceedButton";
+import ProceedButton from "../components/buttons/ProceedButton";
 
 export default function TestingPage() {
   const [step, setStep] = useState(1);

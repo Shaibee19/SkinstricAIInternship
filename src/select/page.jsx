@@ -1,5 +1,5 @@
 import { useState } from "react";
-import BackButton from "../components/BackButton";
+import BackButton from "../components/buttons/BackButton";
 import diamondLarge from "../assets/diamonds/diamond-large.png";
 import diamondMedium from "../assets/diamonds/diamond-medium.png";
 import diamondSmall from "../assets/diamonds/diamond-small.png";

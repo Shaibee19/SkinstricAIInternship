@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSkinstric } from "../../context/SkinstricContext";
 import { useNavigate } from "react-router-dom";
 import takePictureIcon from "../../assets/camera/take-picture-icon.png";
-import BackButton from "../../components/BackButton";
+import BackButton from "../../components/buttons/BackButton";
 import PreparingScreen from "../../components/PreparingScreen";
 import GreatShot from "../../components/GreatShot";
 import AnalyzingImage from "../../components/AnalyzingImage";

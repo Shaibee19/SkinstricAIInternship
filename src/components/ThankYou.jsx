@@ -1,5 +1,5 @@
-import ProceedButton from "./ProceedButton";
-import BackButton from "./BackButton";
+import ProceedButton from "./buttons/ProceedButton";
+import BackButton from "./buttons/BackButton";
 
 export default function TestingThankYou({ show }) {
   if (!show) return null;
