@@ -34,10 +34,11 @@ export default function SummaryPage() {
   const initialAge = ageData[0];
   const initialSex = sexData[0];
 
-
   const [selectedCategory, setSelectedCategory] = useState("race");
   const [selectedValue, setSelectedValue] = useState(initialRace?.label);
-  const [selectedConfidence, setSelectedConfidence] = useState(initialRace?.confidence);
+  const [selectedConfidence, setSelectedConfidence] = useState(
+    initialRace?.confidence,
+  );
 
   const getCurrentList = () => {
     if (selectedCategory === "race") return raceData || [];
@@ -63,11 +64,7 @@ export default function SummaryPage() {
     setSelectedCategory(category);
 
     const list =
-      category === "race" 
-      ? raceData 
-      : category === "age" 
-      ? ageData 
-      : sexData;
+      category === "race" ? raceData : category === "age" ? ageData : sexData;
 
     // Default to highest confidence item
     setSelectedValue(list[0].label);
@@ -177,49 +174,42 @@ export default function SummaryPage() {
               <div className="relative md:absolute w-full max-w-[384px] aspect-square mb-4 md:right-5 md:bottom-2">
                 <div className="relative w-full h-full max-h-[384px]">
                   {/* FULL GRAY CIRCLE */}
-                  <svg
-                    className="CircularProgressbar text-[#D1D5DB]"
-                    viewBox="0 0 100 100"
-                  >
+                  <svg className="absolute inset-0" viewBox="0 0 100 100">
                     <path
                       d="
-            M 50,50
-            m 0,-49.15
-            a 49.15,49.15 0 1 1 0,98.3
-            a 49.15,49.15 0 1 1 0,-98.3
-          "
-                      strokeWidth="1.7"
-                      fillOpacity="0"
+      M 50,50
+      m 0,-49.15
+      a 49.15,49.15 0 1 1 0,98.3
+      a 49.15,49.15 0 1 1 0,-98.3
+    "
+                      stroke="#E5E7EB" // lighter gray
+                      strokeWidth="4" // thicker ring
+                      fill="none"
                       style={{
-                        strokeLinecap: "butt",
-                        strokeDasharray: `${circumference}px, ${circumference}px`,
-                        strokeDashoffset: "0px",
+                        strokeDasharray: `${circumference}px ${circumference}px`,
+                        strokeDashoffset: 0,
                       }}
-                    ></path>
+                    />
                   </svg>
 
                   {/* BLACK ANIMATED ARC */}
-                  <svg
-                    className="CircularProgressbar text-[#1A1B1C] absolute inset-0"
-                    viewBox="0 0 100 100"
-                  >
+                  <svg className="absolute inset-0" viewBox="0 0 100 100">
                     <path
                       d="
-            M 50,50
-            m 0,-49.15
-            a 49.15,49.15 0 1 1 0,98.3
-            a 49.15,49.15 0 1 1 0,-98.3
-          "
-                      strokeWidth="1.7"
-                      fillOpacity="0"
+      M 50,50
+      m 0,-49.15
+      a 49.15,49.15 0 1 1 0,98.3
+      a 49.15,49.15 0 1 1 0,-98.3
+    "
+                      stroke="#1A1B1C"
+                      strokeWidth="4"
+                      fill="none"
                       style={{
-                        stroke: "#1A1B1C",
-                        strokeLinecap: "butt",
-                        transitionDuration: "0.8s",
-                        strokeDasharray: `${circumference}px, ${circumference}px`,
-                        strokeDashoffset: `${dashOffset}px`,
+                        transition: "stroke-dashoffset 0.8s ease",
+                        strokeDasharray: `${circumference}px ${circumference}px`,
+                        strokeDashoffset: dashOffset,
                       }}
-                    ></path>
+                    />
                   </svg>
 
                   {/* Percentage Number */}
@@ -241,7 +231,6 @@ export default function SummaryPage() {
             {/* Right Column */}
             <div className="bg-gray-100 pt-4 pb-4 md:border-t">
               <div className="space-y-0">
-
                 {/* Right Column Header */}
                 <div className="flex justify-between px-4">
                   <h4 className="text-base leading-[24px] tracking-tight font-medium mb-2">
@@ -294,13 +283,11 @@ export default function SummaryPage() {
             {/* Footer Navigation */}
             <div className="pt-4 md:pt-[37px] pb-6 bg-white sticky bottom-40 md:static md:bottom-0 mb-8 md:mb-16">
               <div className="flex justify-between max-w-full mx-auto px-4 md:px-0">
-
                 {/* Back Button */}
                 <BackButton href="/select" label="BACK" />
 
                 {/* Home Button */}
                 <HomeButton href="/" label="HOME" />
-           
               </div>
             </div>
           </div>

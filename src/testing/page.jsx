@@ -2,11 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSkinstric } from "../context/SkinstricContext";
 import BackButton from "../components/buttons/BackButton";
-import diamondLarge from "../assets/diamonds/diamond-large.png";
-import diamondMedium from "../assets/diamonds/diamond-medium.png";
-import diamondSmall from "../assets/diamonds/diamond-small.png";
-import RotatingDiamonds from "../components/RotatingDiamonds";
-import ThankYou from "../components/ThankYou";
+import RotatingDiamonds from "../components/overlays/RotatingDiamonds";
+import ThankYou from "../components/overlays/ThankYou";
 
 export default function TestingPage() {
   const [step, setStep] = useState(1);
@@ -28,7 +25,7 @@ export default function TestingPage() {
       setStep(2);
       return;
     }
-
+    
     if (step === 2) {
       if (!city.trim()) return;
 
@@ -42,17 +39,17 @@ export default function TestingPage() {
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name: `${name}`, location: `${city}` }),
-          },
+            body: JSON.stringify({ name, location: city }),
+          }
         );
 
         const data = await response.json();
 
         // Save API result globally
         setPhaseOneData(data);
-
         // API is done — user can proceed
         setReadyToProceed(true);
+      
       } catch (err) {
         console.error("Phase One API error:", err);
         alert("Something went wrong. Try again.");
@@ -67,71 +64,66 @@ export default function TestingPage() {
   }
 
   return (
-    <div className="min-h-[90vh] flex flex-col items-center justify-center bg-white text-center relative">
+    <div className="h-screen overflow-hidden bg-white text-center relative">
+
+      {/* Main centered content */}
+      <div className="flex flex-col items-center justify-center h-full">
+
       {/* Top-left label */}
-      <div className="absolute top-16 left-9 text-left">
-        <p className="font-semibold text-xs">
-          {step === 1 ? "TO START ANALYSIS" : "YOUR CITY NAME"}
-        </p>
+        <div className="absolute top-16 left-9 text-left z-[200]">
+          <p className="font-semibold text-xs">
+            {step === 1 ? "TO START ANALYSIS" : "YOUR CITY NAME"}
+          </p>
+        </div>
+
+        {/* Input Section */}
+        <div className="relative flex flex-col items-center justify-center w-full h-full">
+
+          {/* Background Diamonds */}
+          <RotatingDiamonds show={true} overlay={false} />
+
+          <p className="text-sm text-gray-400 tracking-wider uppercase mb-1 z-[200]">
+            CLICK TO TYPE
+          </p>
+
+          <form className="relative z-[200]" onSubmit={handleSubmit}>
+            <input
+              value={step === 1 ? name : city}
+              onChange={(e) =>
+                step === 1 ? setName(e.target.value) : setCity(e.target.value)
+              }
+              className="text-5xl sm:text-6xl font-normal text-center bg-transparent border-b border-black 
+                         focus:outline-none w-[372px] sm:w-[432px] pt-1 tracking-[-0.07em] leading-[64px] 
+                         text-[#1A1B1C]"
+              placeholder={step === 1 ? "Introduce Yourself" : "Your City Name"}
+              autoComplete="off"
+              type="text"
+            />
+            <button type="submit" className="sr-only">
+              Submit
+            </button>
+          </form>
+        </div>
+
+        {/* Back Button */}
+        {!showThankYou && (
+          <div className="absolute bottom-[38.5px] md:bottom-8 w-full flex justify-between md:px-9 px-13 z-[200]">
+            <BackButton href="/" label="BACK" />
+          </div>
+        )}
       </div>
 
-      {/* Input Section */}
-      <div className="relative flex flex-col items-center justify-center mb-40 w-full h-full">
-        <p className="text-sm text-gray-400 tracking-wider uppercase mb-1">
-          CLICK TO TYPE
-        </p>
-
-        <form className="relative z-10" onSubmit={handleSubmit}>
-          <div className="flex flex-col items-center"></div>
-          <input
-            value={step === 1 ? name : city}
-            onChange={(e) =>
-              step === 1 ? setName(e.target.value) : setCity(e.target.value)
-            }
-            className="text-5xl sm:text-6xl font-normal text-center bg-transparent border-b border-black focus:outline-none w-[372px] sm:w-[432px] pt-1 tracking-[-0.07em] leading-[64px] text-[#1A1B1C] z-10"
-            placeholder={step === 1 ? "Introduce Yourself" : "Your City Name"}
-            autoComplete="off"
-            type="text"
-          />
-          <button type="submit" className="sr-only" fdprocessedid="8h0c4xp">
-            Submit
-          </button>
-        </form>
-
-        {/* Rotating Diamond Images */}
-        <img
-          src={diamondLarge}
-          alt="Diamond Large"
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] h-[480px] md:w-[762px] md:h-[762px] animate-spin-slow rotate-[190deg]"
-        />
-        <img
-          src={diamondMedium}
-          alt="Diamond Medium"
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[682px] md:h-[682px] animate-spin-slower rotate-[185deg]"
-        />
-        <img
-          src={diamondSmall}
-          alt="Diamond Small"
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] md:w-[602px] md:h-[602px] animate-spin-slowest"
-        />
-      </div>
-
-      {/* Back Button */}
-      <div className="absolute bottom-[38.5] md:bottom-8 w-full flex justify-between md:px-9 px-13">
-        <BackButton href="/" label="BACK" />
-      </div>
-
+      {/* Overlays */}
       {loading && (
         <>
-          <p className="absolute top-[55%] right-8 text-black text-sm font-semibold">
-            Processing…
-          </p>
           <RotatingDiamonds
             show={showProcessing}
+            overlay={true}
             size="large"
             text="Processing submission"
             showDots={true}
           />
+
           <ThankYou
             show={showThankYou}
             onProceed={() => {
