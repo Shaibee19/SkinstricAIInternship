@@ -10,7 +10,7 @@ import galleryIcon from "../assets/result/gallery-icon.png";
 import galleryLine from "../assets/result/gallery-line.png";
 import BackButton from "../components/buttons/BackButton";
 import CameraModal from "../components/CameraModal";
-import PreparingScreen from "../components/PreparingScreen";
+import BouncingDots from "../components/BouncingDots";
 import SuccessPopup from "../components/SuccessPopup";
 
 export default function ResultPage() {
@@ -33,6 +33,8 @@ export default function ResultPage() {
     reader.onloadend = async () => {
       const base64 = reader.result;
       setPreview(base64);
+
+      // Show preparing screen
       setShowPreparing(true);
 
       try {
@@ -50,17 +52,16 @@ export default function ResultPage() {
         const data = await response.json();
 
         setPhaseTwoData(data);
+
+        // Hide preparing -> show success popup
         setShowPreparing(false);
         setShowSuccessPopup(true);
 
-        navigate("/select");
       } catch (err) {
         console.error("Phase Two error:", err);
         alert("Something went wrong. Try again.");
         setShowPreparing(false);
       }
-
-      setLoading(false);
     };
 
     reader.readAsDataURL(file);
@@ -198,12 +199,6 @@ export default function ResultPage() {
         />
       </div>
 
-      {loading && (
-        <p className="absolute top-[50%] left-1/2 -translate-x-1/2 text-sm font-semibold">
-          Processing…
-        </p>
-      )}
-
       {/* Navigation Bottom */}
       <div className="pt-4 pb-8 bg-white sticky md:static bottom-30.5">
         <div className="absolute bottom-8 w-full flex justify-between md:px-9 px-13">
@@ -218,7 +213,12 @@ export default function ResultPage() {
           />
 
           {/* Preparing Screen */}
-          {showPreparing && <PreparingScreen show={showPreparing} />}
+          {showPreparing && (
+            <BouncingDots
+              show={showPreparing}
+              text="Preparing your analysis…"
+            />
+          )}
 
           {/* Success Popup */}
           {showSuccessPopup && (

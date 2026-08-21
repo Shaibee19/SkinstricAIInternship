@@ -5,9 +5,8 @@ import BackButton from "../components/buttons/BackButton";
 import diamondLarge from "../assets/diamonds/diamond-large.png";
 import diamondMedium from "../assets/diamonds/diamond-medium.png";
 import diamondSmall from "../assets/diamonds/diamond-small.png";
-import ProcessingSubmission from "../components/ProcessingSubmission";
+import BouncingDots from "../components/BouncingDots";
 import ThankYou from "../components/ThankYou";
-import ProceedButton from "../components/buttons/ProceedButton";
 
 export default function TestingPage() {
   const [step, setStep] = useState(1);
@@ -69,7 +68,7 @@ export default function TestingPage() {
 
   return (
     <div className="min-h-[90vh] flex flex-col items-center justify-center bg-white text-center relative">
-      
+
       {/* Top-left label */}
       <div className="absolute top-16 left-9 text-left">
         <p className="font-semibold text-xs">
@@ -128,7 +127,7 @@ export default function TestingPage() {
           <p className="absolute top-[55%] right-8 text-black text-sm font-semibold">
             Processing…
           </p>
-          <ProcessingSubmission show={showProcessing} />
+          <BouncingDots show={showProcessing} />
           <ThankYou
             show={showThankYou}
             onProceed={() => {

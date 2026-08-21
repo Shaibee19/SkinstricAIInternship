@@ -1,8 +1,4 @@
 import { useState } from "react";
-import leftRect from "../assets/home/home-rectangle-left.png";
-import rightRect from "../assets/home/home-rectangle-right.png";
-import iconLeft from "../assets/home/button-icon-shrunk-left.png";
-import iconRight from "../assets/home/button-icon-shrunk-right.png";
 
 export default function HomePage() {
   const [hoverState, setHoverState] = useState(null);

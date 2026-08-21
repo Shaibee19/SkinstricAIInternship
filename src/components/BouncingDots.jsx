@@ -1,10 +1,10 @@
-export default function ProcessingSubmission({ show }) {
+export default function BouncingDots({ show, text = "Processing submission" }) {
   if (!show) return null;
 
   return (
     <div className="absolute inset-0 bg-white flex flex-col items-center justify-center z-[3000]">
       <div className="relative w-[300px] h-[300px] md:w-[420px] md:h-[420px] flex items-center justify-center">
-        
+
         {/* Dotted Squares */}
         <div className="absolute inset-0">
           <div className="absolute inset-0 border border-gray-300 rotate-45 opacity-60"></div>
@@ -15,7 +15,7 @@ export default function ProcessingSubmission({ show }) {
         {/* Text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
           <p className="text-[#1A1B1C] text-sm md:text-base mt-6 tracking-wide">
-            Processing submission
+            {text}
           </p>
 
           {/* Bouncing Dots */}
