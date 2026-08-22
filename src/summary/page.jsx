@@ -22,16 +22,34 @@ export default function SummaryPage() {
 
     const sortDesc = (arr) => arr.sort((a, b) => b.confidence - a.confidence);
 
+    const ageOrder = [
+      "0-2",
+      "3-9",
+      "10-19",
+      "20-29",
+      "30-39",
+      "40-49",
+      "50-59",
+      "60-69",
+      "70+",
+    ];
+
+    // ⭐ FIXED AGE ORDER — youngest → oldest
+    const sortAge = (arr) =>
+      arr.sort((a, b) => ageOrder.indexOf(a.label) - ageOrder.indexOf(b.label));
+
     return {
-      raceData: sortDesc(toArray(race)),
-      ageData: sortDesc(toArray(age)),
-      sexData: sortDesc(toArray(gender)),
+      raceData: sortDesc(toArray(race)), // highest confidence
+      ageData: sortAge(toArray(age)), // fixed order
+      sexData: sortDesc(toArray(gender)), // highest confidence
     };
   }, [phaseTwoData]);
 
   const { raceData, ageData, sexData } = parsed;
   const initialRace = raceData[0];
-  const initialAge = ageData[0];
+  const initialAge = [...ageData].sort(
+    (a, b) => b.confidence - a.confidence,
+  )[0];
   const initialSex = sexData[0];
 
   const [selectedCategory, setSelectedCategory] = useState("race");
@@ -63,10 +81,17 @@ export default function SummaryPage() {
   const handleLeftSelect = (category) => {
     setSelectedCategory(category);
 
-    const list =
-      category === "race" ? raceData : category === "age" ? ageData : sexData;
+    let list;
 
-    // Default to highest confidence item
+    if (category === "race") {
+      list = raceData;
+    } else if (category === "age") {
+      // AGE default = highest confidence, as well
+      list = [...ageData].sort((a, b) => b.confidence - a.confidence);
+    } else {
+      list = sexData;
+    }
+
     setSelectedValue(list[0].label);
     setSelectedConfidence(list[0].confidence);
   };
@@ -135,8 +160,9 @@ export default function SummaryPage() {
                 <p className="text-base font-semibold">
                   {selectedCategory === "age"
                     ? selectedValue
-                    : ageData[0]?.label}
+                    : initialAge?.label}
                 </p>
+
                 <h4 className="text-base font-semibold mb-1">AGE</h4>
               </div>
 
@@ -173,17 +199,18 @@ export default function SummaryPage() {
               {/* Progress Circle */}
               <div className="relative md:absolute w-full max-w-[384px] aspect-square mb-4 md:right-5 md:bottom-2">
                 <div className="relative w-full h-full max-h-[384px]">
+
                   {/* FULL GRAY CIRCLE */}
                   <svg className="absolute inset-0" viewBox="0 0 100 100">
                     <path
                       d="
-      M 50,50
-      m 0,-49.15
-      a 49.15,49.15 0 1 1 0,98.3
-      a 49.15,49.15 0 1 1 0,-98.3
-    "
+                        M 50,50
+                        m 0,-49.15
+                        a 49.15,49.15 0 1 1 0,98.3
+                        a 49.15,49.15 0 1 1 0,-98.3
+                      "
                       stroke="#E5E7EB" // lighter gray
-                      strokeWidth="4" // thicker ring
+                      strokeWidth="2" // thicker ring
                       fill="none"
                       style={{
                         strokeDasharray: `${circumference}px ${circumference}px`,
@@ -196,13 +223,13 @@ export default function SummaryPage() {
                   <svg className="absolute inset-0" viewBox="0 0 100 100">
                     <path
                       d="
-      M 50,50
-      m 0,-49.15
-      a 49.15,49.15 0 1 1 0,98.3
-      a 49.15,49.15 0 1 1 0,-98.3
-    "
+                        M 50,50
+                        m 0,-49.15
+                        a 49.15,49.15 0 1 1 0,98.3
+                        a 49.15,49.15 0 1 1 0,-98.3
+                      "
                       stroke="#1A1B1C"
-                      strokeWidth="4"
+                      strokeWidth="2"
                       fill="none"
                       style={{
                         transition: "stroke-dashoffset 0.8s ease",

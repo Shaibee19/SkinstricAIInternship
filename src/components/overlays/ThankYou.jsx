@@ -10,10 +10,10 @@ export default function ThankYou({ show, onProceed }) {
 
       {/* Rotating Diamonds with centered text */}
       <RotatingDiamonds show={show} size="large" showDots={false}>
-        <p className="text-[#1A1B1C] text-lg md:text-xl tracking-wide font-semibold">
+        <p className="text-2xl font-normal text-[#1A1B1C] tracking-wide">
           Thank you!
         </p>
-        <p className="text-[#1A1B1C] text-sm md:text-base mt-1 tracking-wide">
+        <p className="text-lg mt-4 text-gray-600">
           Proceed to the next step
         </p>
       </RotatingDiamonds>

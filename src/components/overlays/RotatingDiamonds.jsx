@@ -46,7 +46,7 @@ export default function RotatingDiamonds({
 
         {/* Text */}
         {text && !children && (
-          <p className="text-[#1A1B1C] text-sm md:text-base tracking-wide">
+          <p className="text-lg mb-4 text-gray-600">
             {text}
           </p>
         )}
