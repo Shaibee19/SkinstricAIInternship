@@ -40,8 +40,10 @@ export default function ResultPage() {
       const base64 = reader.result;
       setPreview(base64);
 
-      // Show preparing screen
-      setShowPreparing(true);
+      // Show preparing screen on a delay before showing the preparing overlay
+      setTimeout(() => {
+        setShowPreparing(true);
+      }, 800);
       setLoading(true);
 
       try {
